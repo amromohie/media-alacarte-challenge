@@ -1,0 +1,277 @@
+// ── Hero Section ─────────────────────────────────────────
+// Premium dark SaaS hero with floating pill buttons
+// attached via inverted-radius cutout corners.
+//
+// TECHNIQUE (box-shadow inverted radius):
+//   Each button sits inside an opaque wrapper that covers
+//   one corner of the image card. Two pseudo-elements per
+$card-r:   28px;       // image card corner radius
+$offset:   -44px;      // Floating button offset
+
+// ══════════════════════════════════════════════════════════
+//  BASE
+// ══════════════════════════════════════════════════════════
+:host {
+  display: block;
+  position: relative;
+  // NO overflow:hidden here — the floating buttons must not be clipped.
+  overflow: visible;
+}
+
+// ── FOUC prevention ──────────────────────────────────────
+// Elements start invisible; GSAP reveals them on init.
+// This prevents the flash of unstyled content before JS loads.
+.hero__badge,
+.hero__subtitle,
+.hero__title,
+.hero__desc,
+.hero__image-svg,
+.hero__cta,
+.hero__learn-more {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.hero {
+  position: relative;
+  padding-block-start: 4rem;
+  padding-block-end: 4rem;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Decorative gradient blobs (Wavy Arcs) ── */
+.hero__glow {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.hero__glow--cyan {
+  width: 120vw;
+  height: 120vw;
+  max-width: 1200px;
+  max-height: 1200px;
+  border-radius: 50%;
+  box-shadow: inset 120px 0 120px -60px rgba(0, 200, 255, 0.08);
+  top: -30%;
+  right: -20%;
+  transform: rotate(-15deg);
+  filter: blur(40px);
+}
+
+.hero__glow--purple {
+  width: 120vw;
+  height: 120vw;
+  max-width: 1200px;
+  max-height: 1200px;
+  border-radius: 50%;
+  box-shadow: inset -120px 0 120px -60px rgba(233, 30, 99, 0.1);
+  bottom: -30%;
+  left: -20%;
+  transform: rotate(15deg);
+  filter: blur(40px);
+}
+
+/* ── Container ── */
+.hero__container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 3rem;
+}
+
+// ══════════════════════════════════════════════════════════
+//  TEXT CONTENT
+// ══════════════════════════════════════════════════════════
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+}
+
+.hero__badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.4rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-block-end: 2rem;
+  backdrop-filter: blur(8px);
+}
+
+.hero__subtitle {
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  font-weight: 600;
+  color: #E91E63;
+  margin-block-end: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.hero__title {
+  font-size: clamp(3rem, 7vw, 5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-block-end: 1.5rem;
+  
+  // Premium metallic gradient
+  background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent; // fallback
+}
+
+.hero__desc {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: #a1a1aa;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+// ══════════════════════════════════════════════════════════
+//  IMAGE CARD
+// ══════════════════════════════════════════════════════════
+.hero__image-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin-block-start: 0;
+  // overflow:visible so the absolutely-placed buttons can spill outside
+  overflow: visible;
+  isolation: isolate;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: translateY(-4px) scale(1.01);
+
+    .hero__image-svg {
+      filter:
+        drop-shadow(0 50px 100px rgba(0, 0, 0, 0.7)) drop-shadow(0 16px 40px rgba(0, 0, 0, 0.5));
+    }
+  }
+}
+
+// The SVG IS the image card — rounded corners handled via mask rect rx.
+// Use filter:drop-shadow (not box-shadow) so the shadow follows the masked shape.
+.hero__image-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter:
+    drop-shadow(0 40px 80px rgba(0, 0, 0, 0.6)) drop-shadow(0 12px 32px rgba(0, 0, 0, 0.4));
+  transform: translateZ(0);
+  transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+// ══════════════════════════════════════════════════════════
+//  TOP-LEFT · "Start your journey!" CTA
+// ══════════════════════════════════════════════════════════
+.hero__cta-wrapper {
+  position: absolute;
+  top: $offset;
+  left: $offset;
+  // Padding keeps the mask gap between button edge and image edge
+  padding: 0 16px 16px 0;
+}
+
+.hero__cta {
+  position: relative;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #FF3366 0%, #E91E63 50%, #FF6B6B 100%);
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow:
+    0 8px 24px rgba(255, 51, 102, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.4s ease;
+}
+
+.hero__cta:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 16px 32px rgba(255, 51, 102, 0.4),
+    0 4px 12px rgba(255, 51, 102, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  filter: brightness(1.1);
+}
+
+// ══════════════════════════════════════════════════════════
+//  BOTTOM-RIGHT · "Learn More" button
+// ══════════════════════════════════════════════════════════
+.hero__learn-more-wrapper {
+  position: absolute;
+  bottom: $offset;
+  right: $offset;
+  padding: 16px 0 0 16px;
+}
+
+.hero__learn-more {
+  position: relative;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  background: rgba(25, 25, 35, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #fff;
+  border: 1px solid var(--accent-pink);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition:
+    background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s ease,
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero__learn-more:hover {
+  background: rgba(255, 51, 102, 0.08);
+  border-color: rgba(255, 51, 102, 0.3);
+  box-shadow: 0 8px 24px rgba(255, 51, 102, 0.15);
+  transform: translateY(-2px) scale(1.02);
+}
+
+// Legacy cutout masks removed.
+
+// ══════════════════════════════════════════════════════════
+//  RESPONSIVE
+// ══════════════════════════════════════════════════════════
+@media (min-width: 1024px) {
+  .hero {
+    min-height: 90vh;
+    padding-block-start: 3rem;
+    padding-block-end: 6rem;
+  }
+
+  .hero__container {
+    gap: 1.5rem;
+  }
+}

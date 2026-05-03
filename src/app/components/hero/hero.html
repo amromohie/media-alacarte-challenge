@@ -1,0 +1,106 @@
+<section class="hero section" id="hero" aria-label="Hero" #heroSection>
+  <!-- Decorative gradient blobs -->
+  <div class="hero__glow hero__glow--cyan" aria-hidden="true"></div>
+  <div class="hero__glow hero__glow--purple" aria-hidden="true"></div>
+
+  <div class="container hero__container">
+
+    <!-- ─── Text Content ─── -->
+    <div class="hero__content">
+      <span class="hero__badge">{{ 'HERO.BADGE' | translate }}</span>
+      <p class="hero__subtitle">{{ 'HERO.SUBTITLE' | translate }}</p>
+      <h1 class="hero__title">{{ 'HERO.TITLE' | translate }}</h1>
+      <p class="hero__desc">{{ 'HERO.DESCRIPTION' | translate }}</p>
+    </div>
+
+    <!-- ─── Image Card ─── -->
+    <div class="hero__image-wrapper">
+
+      <!--
+        The image lives INSIDE the SVG so the mask coordinate system
+        is identical to the image coordinate system — no cross-element bugs.
+
+        IMPORTANT: Angular sanitizes SVG "mask" attributes, so we use
+        [attr.mask] binding with a safe string to bypass sanitization,
+        OR we rely on the TypeScript to set it via setAttribute after render.
+        The mask is set programmatically in hero.ts via setAttribute.
+      -->
+      <svg
+        class="hero__image-svg"
+        viewBox="0 0 960 540"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-label="Hero image"
+        role="img"
+      >
+        <defs>
+          <!-- 1. Base cutout mask: creates sharp transparent holes for the pills -->
+          <mask id="cutout-mask">
+            <rect x="-100" y="-100" width="1160" height="740" fill="white" />
+            <rect id="mask-tl" x="0" y="0" width="0" height="0" rx="9999" ry="9999" fill="black" />
+            <rect id="mask-br" x="0" y="0" width="0" height="0" rx="9999" ry="9999" fill="black" />
+          </mask>
+
+          <!-- 2. Gooey filter: blurs and sharpens alpha to create inverted curves -->
+          <filter id="gooey-filter" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="
+              1 0 0 0 0
+              0 1 0 0 0
+              0 0 1 0 0
+              0 0 0 20 -9" result="gooey" />
+          </filter>
+
+          <!-- 3. Final smooth mask: applies the gooey filter to the sharp holes -->
+          <mask id="hero-img-mask">
+            <rect x="-100" y="-100" width="1160" height="740" fill="white" mask="url(#cutout-mask)" filter="url(#gooey-filter)" />
+          </mask>
+
+          <!-- 4. Crisp outer boundary for the main image card -->
+          <clipPath id="hero-outer-clip">
+            <rect x="0" y="0" width="960" height="540" rx="28" ry="28" />
+          </clipPath>
+
+          <!-- Gradient overlay for the bottom dark fade -->
+          <linearGradient id="hero-overlay-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="55%" stop-color="rgba(0,0,0,0)" />
+            <stop offset="100%" stop-color="rgba(5,5,8,0.8)" />
+          </linearGradient>
+        </defs>
+
+        <!-- Image Group: Mask and Clip-path applied via TypeScript to bypass sanitization -->
+        <g id="hero-img-group">
+          <image
+            href="assets/images/hero-team.png"
+            x="0" y="0"
+            width="960" height="540"
+            preserveAspectRatio="xMidYMid slice"
+          />
+          <rect
+            x="0" y="0" width="960" height="540"
+            fill="url(#hero-overlay-grad)"
+          />
+        </g>
+      </svg>
+
+      <!-- Top-left CTA (floats outside the image card) -->
+      <div class="hero__cta-wrapper">
+        <a href="#solutions" class="hero__cta">
+          {{ 'HERO.CTA' | translate }}
+        </a>
+      </div>
+
+      <!-- Bottom-right Learn More (floats outside the image card) -->
+      <div class="hero__learn-more-wrapper">
+        <a href="#services" class="hero__learn-more">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M10 8l6 4-6 4V8z" />
+          </svg>
+          {{ 'HERO.LEARN_MORE' | translate }}
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>

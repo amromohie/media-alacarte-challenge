@@ -1,0 +1,96 @@
+{
+  "NAV": {
+    "PLATFORM": "The Platform",
+    "FEATURES": "Features",
+    "BENEFITS": "Benefits",
+    "REQUEST_DEMO": "Request a Demo",
+    "CONTACT": "Contact Us",
+    "ABOUT": "About Us",
+    "LOGIN": "Login"
+  },
+  "HERO": {
+    "BADGE": "#1 MEDIA MARKETPLACE FOR ADVERTISERS & AGENCIES",
+    "SUBTITLE": "Bigger Impact",
+    "TITLE": "Stronger Campaigns",
+    "DESCRIPTION": "Smarter Media Buying",
+    "CTA": "Start your journey!",
+    "LEARN_MORE": "Learn More"
+  },
+  "MARQUEE": {
+    "LINE1": "We simplify media buying with data, automation, and collaboration to maximize ROI.",
+    "LINE2": "Coming soon: Smarter media solutions for agencies and media owners, driving innovation, and measurable impact."
+  },
+  "SERVICES": {
+    "TITLE": "Our Services",
+    "ADVERTISERS": {
+      "TITLE": "Advertisers",
+      "DESC": "Run & optimize ads across multiple platforms effortlessly."
+    },
+    "AGENCIES": {
+      "TITLE": "Agencies",
+      "DESC": "Manage campaigns at scale with powerful tools and insights."
+    },
+    "MEDIA_OWNERS": {
+      "TITLE": "Media Owners",
+      "DESC": "Monetize your media inventory with premium demand sources."
+    }
+  },
+  "SOLUTIONS": {
+    "BADGE": "WHY MEDIA ALA CARTE?",
+    "TITLE_PRE": "Our All",
+    "TITLE_HIGHLIGHT": "Solution",
+    "TITLE_POST": "for",
+    "TITLE_SUB": "Smarter Media Buying",
+    "CAMPAIGN": {
+      "TITLE": "Campaign Planning",
+      "DESC": "Plan and optimize your ad campaigns with data-driven insights and seamless collaboration for maximum impact."
+    },
+    "BUYING": {
+      "TITLE": "Media Buying",
+      "DESC": "Effortless direct media deals with AI-powered automation, ensuring cost efficiency and better reach."
+    },
+    "DISTRIBUTION": {
+      "TITLE": "Ad Distribution",
+      "DESC": "Distribute ads across multiple channels effortlessly, ensuring precise targeting and real-time tracking."
+    },
+    "ANALYTICS": {
+      "TITLE": "Performance Analytics",
+      "DESC": "Gain actionable insights with real-time performance tracking to maximize your ROI and refine future strategies."
+    },
+    "CTA": "Get Started"
+  },
+  "COLLABORATION": {
+    "BADGE": "FOSTERING COLLABORATION ACROSS MEDIA",
+    "TITLE": "Collaborate. Elevate. Succeed",
+    "DESC": "Empower advertisers, agencies, and media owners to work seamlessly.",
+    "CTA": "Meet the Experts",
+    "STAT1_VAL": "110+",
+    "STAT1_LABEL": "Top Agencies Trust Media LaCarte",
+    "STAT2_VAL": "1M",
+    "STAT2_LABEL": "Advertisers Reaching the Right Audience",
+    "STAT3_VAL": "98.99%",
+    "STAT3_LABEL": "Seamless Media Transactions for Owners"
+  },
+  "CTA_SECTION": {
+    "TITLE": "Supercharge Your Media Strategy with Our 100% Efficiency",
+    "POINT1": "Plan, Book, and Manage Campaigns",
+    "POINT2": "Maximize Reach and ROI",
+    "CTA": "Optimize Your Media Today"
+  },
+  "FOOTER": {
+    "TAGLINE": "The Future Media Hub",
+    "USEFUL_LINKS": "Useful Links",
+    "CONTACT_US": "Contact Us",
+    "PLATFORM": "The Platform",
+    "FEATURES": "Features",
+    "BENEFITS": "Benefits",
+    "REQUEST_DEMO": "Request a Demo",
+    "CONTACT": "Contact Us",
+    "ABOUT": "About Us",
+    "PRIVACY": "Privacy Policy",
+    "TERMS": "Terms of Service",
+    "ADDRESS": "Makateb 2 Building Floor 2, Office 206, Dubai Production City, Dubai, United Arab Emirates.",
+    "EMAIL": "admin@mediaalacarte.net",
+    "COPYRIGHT": "© 2024 Media Alacarte Agency FZ LLC. All Rights Reserved."
+  }
+}

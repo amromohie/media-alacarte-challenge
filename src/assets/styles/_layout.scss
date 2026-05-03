@@ -1,0 +1,36 @@
+@use 'variables';
+
+/* ============================================
+   Utility: Container
+   ============================================ */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--section-padding-inline);
+}
+
+/* ============================================
+   Utility: Section Spacing
+   ============================================ */
+
+.section {
+  padding-block: var(--section-padding-block);
+}
+
+/* ============================================
+   Unified Background Section (Collaboration + CTA)
+   ============================================ */
+
+.unified-bg-section {
+  position: relative;
+  background-color: var(--bg-main, #0A0A0F);
+  background-image: 
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 60px 60px, 60px 60px;
+  background-position: center top;
+  overflow: hidden;
+}

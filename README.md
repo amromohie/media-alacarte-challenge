@@ -1,59 +1,59 @@
-# MediaAlacarteLanding
+# Media Alacarte – Frontend Engineering Challenge
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+A premium, interactive, and high-performance landing page built for the **Media Alacarte** Angular Frontend Engineer coding challenge.
 
-## Development server
+**🌐 Live Demo:** [Insert Deployed Link Here]
 
-To start a local development server, run:
+## 🎨 Design Philosophy & Features
+This project implements a modern, dark-themed SaaS aesthetic. The focus was on delivering a pixel-perfect, engaging user experience without sacrificing performance or accessibility.
 
-```bash
-ng serve
-```
+### Key Highlights
+- **Dynamic SVG Masking:** The Hero section features a complex, responsive layout where floating CTA buttons carve pixel-perfect "pill" cutouts with inverted-radius corners directly out of the image card using advanced SVG masking (`feGaussianBlur` + `feColorMatrix`).
+- **Premium Micro-Interactions:** Custom 3D tilt effects on service cards, glowing background orbs, and glassmorphic (`backdrop-filter`) UI elements.
+- **Performant Animations:** Integrated **GSAP (GreenSock)** for highly optimized scroll-triggered reveals, choreographed entrance timelines, and continuous attention-loop micro-interactions, avoiding heavy CSS-in-JS overhead.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🏗️ Technical Architecture
+Industry best practices were strictly followed to ensure clean, maintainable, and scalable code:
 
-## Code scaffolding
+- **Angular 19+ Best Practices:** Utilized `ChangeDetectionStrategy.OnPush` across presentation components to optimize rendering cycles. Code is strictly typed and heavily documented using JSDoc.
+- **Memory Management:** Robust cleanup of GSAP tweens, `ScrollTrigger` instances, and `ResizeObserver`s within `ngOnDestroy` lifecycle hooks to prevent memory leaks.
+- **SCSS Token System:** Styled using an ITCSS-inspired global architecture (`src/styles`). Design tokens (colors, fonts, breakpoints) are centralized in CSS variables for effortless theming and consistency.
+- **Accessibility (a11y):** Semantic HTML5 structures, proper `aria-labels`, descriptive `alt` tags, and full respect for the user's `prefers-reduced-motion` OS settings via a centralized `AnimationService`.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🚀 Getting Started
 
-```bash
-ng generate component component-name
-```
+Follow these instructions to run the project locally.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Prerequisites
+- Node.js (v18 or higher recommended)
+- Angular CLI (`npm install -g @angular/cli`)
 
-```bash
-ng generate --help
-```
+### Installation & Setup
 
-## Building
+1. **Clone the repository** (if applicable):
+   ```bash
+   git clone <repository-url>
+   cd media-alacarte-landing
+   ```
 
-To build the project run:
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-```bash
-ng build
-```
+3. **Start the development server:**
+   ```bash
+   ng serve
+   ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+4. **View the application:**
+   Open your browser and navigate to [http://localhost:4200/](http://localhost:4200/).
 
-## Running unit tests
+## 🛠️ Tech Stack
+- **Framework:** Angular 19
+- **Styling:** SCSS (Vanilla CSS Grid & Flexbox)
+- **Animation:** GSAP (Core + ScrollTrigger)
+- **i18n:** ngx-translate
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+*Developed by Amr Badawy.*

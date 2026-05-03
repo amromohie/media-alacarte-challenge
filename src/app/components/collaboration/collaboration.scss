@@ -1,0 +1,205 @@
+:host {
+  display: block;
+}
+
+.collab {
+  text-align: center;
+}
+
+.collab__badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #999999;
+  padding: 0.375rem 1rem;
+  border: none;
+  border-radius: var(--radius-full);
+  margin-block-end: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.collab__title {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-block-end: 1rem;
+}
+
+.collab__desc {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 500px;
+  margin-inline: auto;
+  margin-block-end: 2rem;
+  line-height: 1.6;
+}
+
+.collab__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: #0D0D12;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all var(--transition-base);
+  margin-block-end: 4rem;
+}
+
+.collab__cta:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Stats Bar */
+.collab__stats {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  background: linear-gradient(to right, #FF4572, #E6194B);
+  padding: 2.5rem;
+  border-radius: 16px;
+  position: relative;
+  z-index: 10;
+}
+
+.collab__stat {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.collab__stat-value {
+  display: block;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.collab__stat-label {
+  display: block;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-block-start: 0.375rem;
+  line-height: 1.4;
+}
+
+.collab__stat-divider {
+  width: 60px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.35);
+  position: relative;
+  z-index: 1;
+}
+
+/* Orbit */
+.collab__orbit {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: 700px; /* Increased to ensure bottom nodes are visible */
+  margin-inline: auto;
+  margin-top: 3rem; 
+  overflow: hidden;
+  /* Fade out the top and edges */
+  mask-image: radial-gradient(ellipse at 50% 0%, black 60%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 0%, black 60%, transparent 95%);
+  display: flex;
+  justify-content: center;
+}
+
+.collab__ring {
+  position: absolute;
+  top: -150px; 
+  left: 50%;
+  /* translateX(-50%) centering — GSAP will ADD rotation to this base transform */
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  /* IMPORTANT: GSAP rotates around this origin point */
+  transform-origin: 50% 50%;
+}
+
+/* Ring sizes */
+.collab__ring--1 {
+  width: 500px;
+  height: 500px;
+}
+
+.collab__ring--2 {
+  width: 800px;
+  height: 800px;
+}
+
+.collab__ring--3 {
+  width: 1100px;
+  height: 1100px;
+}
+
+@keyframes ring-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.collab__node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  /* Counter-rotation pivot must be relative to the node itself */
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.collab__node--avatar {
+  width: 48px;
+  height: 48px;
+  background-color: #222;
+  border: 2px solid rgba(255, 255, 255, 0.2); 
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.collab__node--dot {
+  width: 8px;
+  height: 8px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* Position nodes along the bottom arcs */
+/* Ring 1 (Inner) */
+.collab__node--1 { left: 18%; top: 70%; background-image: url('https://i.pravatar.cc/100?img=12'); }
+.collab__node--2 { left: 82%; top: 70%; background-image: url('https://i.pravatar.cc/100?img=5'); }
+
+/* Ring 2 (Middle) */
+.collab__node--3 { left: 22%; top: 60%; background-image: url('https://i.pravatar.cc/100?img=20'); }
+.collab__node--4 { left: 50%; top: 95%; background-image: url('https://i.pravatar.cc/100?img=11'); }
+.collab__node--5 { left: 78%; top: 60%; background-image: url('https://i.pravatar.cc/100?img=33'); }
+.collab__node--d1 { left: 35%; top: 85%; }
+.collab__node--d2 { left: 65%; top: 85%; }
+
+/* Ring 3 (Outer) */
+.collab__node--6 { left: 22%; top: 70%; background-image: url('https://i.pravatar.cc/100?img=15'); }
+.collab__node--7 { left: 78%; top: 70%; background-image: url('https://i.pravatar.cc/100?img=47'); }
+.collab__node--d3 { left: 35%; top: 86%; }
+.collab__node--d4 { left: 90%; top: 58%; }
+
+@media (min-width: 640px) {
+  .collab__stats {
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 3rem;
+  }
+}

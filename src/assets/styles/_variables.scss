@@ -1,0 +1,86 @@
+:root {
+  /* =========================================
+     1. COLORS
+  ========================================= */
+  /* Backgrounds */
+  --color-bg-main: #0A0A0F;
+  --color-bg-secondary: #0E0E18;
+  --color-bg-card: #1A1A2E;
+  --color-bg-card-alt: #12121F;
+  --color-bg-surface: #16162A;
+  --color-bg-navbar: rgba(10, 10, 15, 0.85);
+  
+  /* Brand Accents */
+  --color-primary: #FF3366;
+  --color-secondary: #E91E63;
+  --color-accent-coral: #FF6B6B;
+  --color-accent-magenta: #FF1744;
+  
+  /* Text */
+  --color-text-heading: #FFFFFF;
+  --color-text-body: #B0B0C0;
+  --color-text-muted: #6B6B80;
+  --color-text-dark: #0A0A0F;
+
+  /* Borders & Dividers */
+  --color-border: rgba(255, 255, 255, 0.08);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent-coral) 100%);
+  --gradient-stats: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 50%, var(--color-accent-coral) 100%);
+  --gradient-cta: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  --gradient-marquee: linear-gradient(90deg, var(--color-secondary) 0%, var(--color-primary) 50%, var(--color-secondary) 100%);
+  --gradient-overlay: linear-gradient(to top, rgba(10, 10, 15, 0.9) 0%, transparent 60%);
+
+  /* =========================================
+     2. TYPOGRAPHY
+  ========================================= */
+  --font-en: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-ar: 'PingARLT', 'Tajawal', sans-serif;
+  
+  /* =========================================
+     3. SPACING & LAYOUT
+  ========================================= */
+  --container-max: 1280px;
+  --section-padding-block: clamp(3rem, 8vw, 6rem);
+  --section-padding-inline: clamp(1rem, 4vw, 2rem);
+
+  /* =========================================
+     4. COMPONENTS & EFFECTS
+  ========================================= */
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-glow: 0 0 40px rgba(255, 51, 102, 0.15);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.3);
+
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Map old variables to new tokens for backward compatibility during refactor */
+:root {
+  --bg-primary: var(--color-bg-main);
+  --bg-secondary: var(--color-bg-secondary);
+  --bg-card: var(--color-bg-card);
+  --bg-card-alt: var(--color-bg-card-alt);
+  --bg-surface: var(--color-bg-surface);
+  --bg-navbar: var(--color-bg-navbar);
+
+  --accent-pink: var(--color-primary);
+  --accent-coral: var(--color-accent-coral);
+  --accent-red: var(--color-secondary);
+  --accent-magenta: var(--color-accent-magenta);
+
+  --text-primary: var(--color-text-heading);
+  --text-secondary: var(--color-text-body);
+  --text-muted: var(--color-text-muted);
+  --text-dark: var(--color-text-dark);
+}

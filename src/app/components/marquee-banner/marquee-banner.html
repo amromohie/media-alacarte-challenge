@@ -1,0 +1,27 @@
+<div class="marquee-wrapper" role="marquee" aria-label="Announcements">
+  <!-- Background Image or Decorative Glow -->
+  <div class="marquee-bg" aria-hidden="true">
+    <!-- Replace this src with your specific background image asset if you have one -->
+    <img src="assets/images/Media Ala Carte.png" alt="" class="marquee-bg__image">
+  </div>
+
+  <!-- First banner (slanted down) -->
+  <div class="marquee marquee--primary">
+    <div class="marquee__track">
+      <span class="marquee__text">{{ 'MARQUEE.LINE1' | translate }}</span>
+      <span class="marquee__text">{{ 'MARQUEE.LINE1' | translate }}</span>
+      <span class="marquee__text">{{ 'MARQUEE.LINE1' | translate }}</span>
+      <span class="marquee__text">{{ 'MARQUEE.LINE1' | translate }}</span>
+    </div>
+  </div>
+
+  <!-- Second banner (slanted up) -->
+  <div class="marquee marquee--secondary">
+    <div class="marquee__track marquee__track--reverse">
+      <span class="marquee__text">{{ 'MARQUEE.LINE2' | translate }}</span>
+      <span class="marquee__text">{{ 'MARQUEE.LINE2' | translate }}</span>
+      <span class="marquee__text">{{ 'MARQUEE.LINE2' | translate }}</span>
+      <span class="marquee__text">{{ 'MARQUEE.LINE2' | translate }}</span>
+    </div>
+  </div>
+</div>

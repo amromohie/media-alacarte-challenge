@@ -1,0 +1,98 @@
+<section class="services section" id="services" aria-labelledby="services-heading" #sectionRef>
+  <div class="container">
+    <!-- Section icon -->
+    <div class="services__icon" aria-hidden="true">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <!-- Main cross arms -->
+        <line x1="12" y1="2"  x2="12" y2="22"/>
+        <line x1="2"  y1="12" x2="22" y2="12"/>
+        <!-- Diagonal arms -->
+        <line x1="4.93" y1="4.93"  x2="19.07" y2="19.07"/>
+        <line x1="19.07" y1="4.93" x2="4.93"  y2="19.07"/>
+        <!-- Fork ticks: top -->
+        <path d="m10 5 2-3 2 3"/>
+        <!-- Fork ticks: bottom -->
+        <path d="m10 19 2 3 2-3"/>
+        <!-- Fork ticks: left -->
+        <path d="m5 10-3 2 3 2"/>
+        <!-- Fork ticks: right -->
+        <path d="m19 10 3 2-3 2"/>
+      </svg>
+    </div>
+
+    <h2 class="services__title" id="services-heading">{{ 'SERVICES.TITLE' | translate }}</h2>
+
+    <div class="services__grid">
+      <!-- Advertisers -->
+      <article class="services__card services__card--main" aria-labelledby="service-advertisers">
+        <img src="assets/images/advertisers.png" alt="Advertisers"
+          class="services__card-image services__card-image--advertisers">
+        <div class="services__card-overlay">
+          <div class="services__card-bottom-row">
+            <div class="services__card-text-content">
+              <h3 id="service-advertisers" class="services__card-title">{{ 'SERVICES.ADVERTISERS.TITLE' | translate }}</h3>
+              <p class="services__card-desc">{{ 'SERVICES.ADVERTISERS.DESC' | translate }}</p>
+            </div>
+            <span class="services__card-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </span>
+          </div>
+        </div>
+        <span class="services__card-label">{{ 'SERVICES.ADVERTISERS.TITLE' | translate }}</span>
+      </article>
+
+      <!-- Agencies -->
+      <article class="services__card services__card--tall" aria-labelledby="service-agencies">
+        <img src="assets/images/agencies.png" alt="Agencies"
+          class="services__card-image services__card-image--agencies">
+        <div class="services__card-overlay">
+          <div class="services__card-bottom-row">
+            <div class="services__card-text-content">
+              <h3 id="service-agencies" class="services__card-title">{{ 'SERVICES.AGENCIES.TITLE' | translate }}</h3>
+              <p class="services__card-desc">{{ 'SERVICES.AGENCIES.DESC' | translate }}</p>
+            </div>
+            <span class="services__card-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </span>
+          </div>
+        </div>
+        <div class="services__card-tab services__card-tab--pink">
+          <span class="services__card-tab-text">{{ 'SERVICES.AGENCIES.TITLE' | translate }}</span>
+        </div>
+      </article>
+
+      <!-- Media Owners -->
+      <article class="services__card services__card--tall" aria-labelledby="service-media-owners">
+        <img src="assets/images/media-owners.png" alt="Media Owners"
+          class="services__card-image services__card-image--media-owners">
+        <div class="services__card-overlay">
+          <div class="services__card-bottom-row">
+            <div class="services__card-text-content">
+              <h3 id="service-media-owners" class="services__card-title">{{ 'SERVICES.MEDIA_OWNERS.TITLE' | translate }}</h3>
+              <p class="services__card-desc">{{ 'SERVICES.MEDIA_OWNERS.DESC' | translate }}</p>
+            </div>
+            <span class="services__card-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
+              </svg>
+            </span>
+          </div>
+        </div>
+        <div class="services__card-tab services__card-tab--red">
+          <span class="services__card-tab-text">{{ 'SERVICES.MEDIA_OWNERS.TITLE' | translate }}</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

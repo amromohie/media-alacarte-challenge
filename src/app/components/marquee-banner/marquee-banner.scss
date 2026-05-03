@@ -1,0 +1,110 @@
+:host {
+  display: block;
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  margin-block: 6rem; /* Space between Hero and Services */
+  background-image: radial-gradient(ellipse at center, rgba(233, 30, 99, 0.05) 0%, rgba(10, 10, 15, 0) 70%);
+}
+
+.marquee-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 130vw;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0; /* Tightly stacked so they overlap/cross */
+}
+
+.marquee-bg {
+  position: absolute;
+  inset: -100px; /* Bleed out slightly */
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.4; /* Subtle background presence */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.marquee-bg__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(8px) brightness(0.6); /* Creates the moody dark glow effect */
+}
+
+.marquee {
+  width: 100%;
+  padding-block: 0.9rem;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+}
+
+/* Primary (Line 1): Darker red, tilts downward (\), behind */
+.marquee--primary {
+  background: linear-gradient(90deg, #5c101d 0%, #b81752 50%, #5c101d 100%);
+  transform: rotate(4deg) translateY(-15px);
+  z-index: 1;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+/* Secondary (Line 2): Bright pink, tilts upward (/), in front */
+.marquee--secondary {
+  background: linear-gradient(90deg, #ff2a5f 0%, #ff4b72 50%, #ff2a5f 100%);
+  transform: rotate(-4deg) translateY(15px);
+  z-index: 2;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(255, 51, 102, 0.2);
+}
+
+.marquee__track {
+  display: inline-flex;
+  align-items: center;
+  gap: 2rem;
+  animation: marquee-scroll 35s linear infinite;
+}
+
+.marquee__track--reverse {
+  animation: marquee-scroll-reverse 40s linear infinite;
+}
+
+[dir="rtl"] .marquee__track {
+  animation: marquee-scroll-reverse 35s linear infinite;
+}
+
+[dir="rtl"] .marquee__track--reverse {
+  animation: marquee-scroll 40s linear infinite;
+}
+
+.marquee__text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #110408; /* Dark text as shown in image */
+  white-space: nowrap;
+  padding-inline: 1.5rem;
+  letter-spacing: 0.02em;
+
+  /* Just spacing between repeated items, no bullet */
+  &::after {
+    content: '';
+    display: inline-block;
+    width: 3rem;
+  }
+}
+
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-scroll-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}

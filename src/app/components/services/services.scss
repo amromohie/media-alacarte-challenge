@@ -1,0 +1,262 @@
+:host {
+  display: block;
+  background-color: #050508;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 26px 26px;
+  background-position: center center;
+}
+
+.services {
+  text-align: center;
+  padding-top: 6rem;
+  padding-bottom: 5rem;
+}
+
+/* ── Icon box ── */
+.services__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #FF3366 0%, #E91E63 100%);
+  border-radius: 14px;
+  color: #ffffff;
+  margin-block-end: 1.25rem;
+  box-shadow: 0 8px 24px rgba(255, 51, 102, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.services__icon:hover {
+  transform: scale(1.06);
+  box-shadow: 0 12px 32px rgba(255, 51, 102, 0.5);
+}
+
+/* ── Section title ── */
+.services__title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin-block-end: 3.5rem;
+  letter-spacing: -0.02em;
+}
+
+/* ── Card Grid ── */
+.services__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 1000px;
+  margin-inline: auto;
+  /* Required for child cards' rotateX/Y tilt to have 3D depth */
+  perspective: 800px;
+}
+
+/* ── Base card ── */
+.services__card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  min-height: 320px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  /* preserve-3d: lets GSAP rotateX/Y create actual 3D depth */
+  transform-style: preserve-3d;
+  /* will-change: promotes to GPU layer for smooth tilt */
+  will-change: transform;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.services__card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 51, 102, 0.3);
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(255, 51, 102, 0.12);
+}
+
+/* ── Card images ── */
+.services__card-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.services__card.is-hovered .services__card-image,
+.services__card:hover .services__card-image {
+  transform: scale(1.06);
+  filter: brightness(0.55);
+}
+
+/* ─────────────────────────────────────────
+   OVERLAY — bottom-gradient container
+   Main card: always visible
+   Tall cards: hidden (opacity 0, translateY up)
+             → revealed on hover
+───────────────────────────────────────── */
+.services__card-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.75rem 1.5rem;
+  /* gradient darkens bottom so text is readable */
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.92) 0%,
+      rgba(0, 0, 0, 0.50) 45%,
+      transparent 72%);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+/* Container for text and arrow at the bottom */
+.services__card-bottom-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Vertically center the arrow with the text block */
+  justify-content: space-between;
+  width: 100%;
+}
+
+.services__card-text-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-right: 1.5rem;
+  text-align: start;
+}
+
+/* Tall cards: overlay hidden by default */
+.services__card--tall .services__card-overlay {
+  opacity: 0;
+  transform: translateY(8px);
+  /* full dark overlay for narrow cards */
+  background: linear-gradient(to top,
+      rgba(0, 0, 0, 0.96) 0%,
+      rgba(0, 0, 0, 0.70) 50%,
+      rgba(0, 0, 0, 0.10) 100%);
+}
+
+/* Tall cards — JS adds .is-hovered class on mouseenter: show the overlay */
+.services__card--tall.is-hovered .services__card-overlay {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* ── Card text ── */
+.services__card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-block-end: 0.4rem;
+  line-height: 1.2;
+}
+
+.services__card-desc {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.5;
+}
+
+/* ── Arrow button (main card only) ── */
+.services__card-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #FF3366 0%, #E91E63 100%);
+  border-radius: 50%;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(255, 51, 102, 0.45);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  z-index: 3;
+}
+
+.services__card:hover .services__card-arrow {
+  transform: scale(1.12);
+  box-shadow: 0 8px 24px rgba(255, 51, 102, 0.65);
+}
+
+
+/* Hide label span */
+.services__card-label {
+  display: none;
+}
+
+/* ─────────────────────────────────────────
+   VERTICAL PILL LABEL  (Agencies / Media Owners)
+   Floating capsule in the lower-right of each narrow card
+   Matches design: fully rounded pill, NOT edge-attached
+───────────────────────────────────────── */
+.services__card-tab {
+  position: absolute;
+  bottom: 0;
+  /* LTR: start from right */
+  right: 0;
+  width: 48px;
+  /* Let text size and padding dictate the smaller height */
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 16px;
+  z-index: 4;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+:host-context([dir="rtl"]) .services__card-tab {
+  right: auto;
+  left: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 16px;
+}
+
+.services__card-tab--pink {
+  background: linear-gradient(180deg, #FF4477 0%, #E91E63 100%);
+}
+
+.services__card-tab--red {
+  background: linear-gradient(180deg, #E91E63 0%, #C2185B 100%);
+}
+
+.services__card-tab-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Hover: slide the tab away so overlay is visible */
+.services__card--tall.is-hovered .services__card-tab {
+  opacity: 0 !important;
+  transform: translateX(10px) !important;
+  pointer-events: none;
+}
+
+/* ── Desktop layout ── */
+@media (min-width: 768px) {
+  .services__grid {
+    grid-template-columns: 2fr 1fr 1fr;
+    height: 520px;
+    gap: 1rem;
+  }
+
+  .services__card {
+    height: 100%;
+    min-height: unset;
+  }
+}
