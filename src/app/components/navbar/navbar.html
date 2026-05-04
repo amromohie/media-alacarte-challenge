@@ -20,7 +20,7 @@
       <button class="navbar__lang-btn" (click)="toggleLang()" [attr.aria-label]="currentLang() === 'en' ? 'Switch to Arabic' : 'Switch to English'">
         {{ currentLang() === 'en' ? 'AR' : 'EN' }}
       </button>
-      <a href="#" class="navbar__login-btn">{{ 'NAV.LOGIN' | translate }}</a>
+      <a href="#" class="navbar__login-btn btn-primary btn-sm">{{ 'NAV.LOGIN' | translate }}</a>
       <button
         class="navbar__hamburger"
         (click)="toggleMobileMenu()"
@@ -43,7 +43,7 @@
         <a role="menuitem" href="#collaboration" class="navbar__mobile-link" [class.navbar__link--active]="activeLink() === 'demo'" (click)="setActiveLink('demo')">{{ 'NAV.REQUEST_DEMO' | translate }}</a>
         <a role="menuitem" href="#cta" class="navbar__mobile-link" [class.navbar__link--active]="activeLink() === 'contact'" (click)="setActiveLink('contact')">{{ 'NAV.CONTACT' | translate }}</a>
         <a role="menuitem" href="#footer" class="navbar__mobile-link" [class.navbar__link--active]="activeLink() === 'about'" (click)="setActiveLink('about')">{{ 'NAV.ABOUT' | translate }}</a>
-        <a href="#" class="navbar__login-btn navbar__login-btn--mobile">{{ 'NAV.LOGIN' | translate }}</a>
+        <a href="#" class="navbar__login-btn navbar__login-btn--mobile btn-primary btn-sm">{{ 'NAV.LOGIN' | translate }}</a>
       </div>
     }
   </nav>
