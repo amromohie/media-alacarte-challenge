@@ -2,7 +2,7 @@
 
 A premium, interactive, and high-performance landing page built for the **Media Alacarte** Angular Frontend Engineer coding challenge.
 
-**🌐 Live Demo:** [Insert Deployed Link Here]
+**🌐 Live Demo:** [https://media-alacarte-challenge-ebon.vercel.app](https://media-alacarte-challenge-ebon.vercel.app)
 
 ## 🎨 Design Philosophy & Features
 This project implements a modern, dark-themed SaaS aesthetic. The focus was on delivering a pixel-perfect, engaging user experience without sacrificing performance or accessibility.
