@@ -1,97 +1,25 @@
 <section class="hero section" id="hero" aria-label="Hero" #heroSection>
-  <!-- Decorative gradient blobs -->
-  <div class="hero__glow glow-orb glow-orb--cyan" aria-hidden="true"></div>
-  <div class="hero__glow glow-orb glow-orb--purple" aria-hidden="true"></div>
+  <!-- Decorative Background Layer -->
+  <div class="hero__background" aria-hidden="true">
+    <div class="hero__glow hero__glow--cyan glow-orb glow-orb--cyan" #glowCyan></div>
+    <div class="hero__glow hero__glow--purple glow-orb glow-orb--purple" #glowPurple></div>
+    <!-- Animated Grid Pattern -->
+    <div class="hero__grid-pattern"></div>
+  </div>
 
   <div class="container hero__container">
-
     <!-- ─── Text Content ─── -->
     <div class="hero__content">
-      <span class="hero__badge badge-primary">{{ 'HERO.BADGE' | translate }}</span>
-      <p class="hero__subtitle">{{ 'HERO.SUBTITLE' | translate }}</p>
-      <h1 class="hero__title text-gradient-primary">{{ 'HERO.TITLE' | translate }}</h1>
-      <p class="hero__desc">{{ 'HERO.DESCRIPTION' | translate }}</p>
-    </div>
+      <span class="hero__badge badge-primary" #badge>{{ 'HERO.BADGE' | translate }}</span>
+      <p class="hero__subtitle" #subtitle>{{ 'HERO.SUBTITLE' | translate }}</p>
+      <h1 class="hero__title text-gradient-primary" #title>{{ 'HERO.TITLE' | translate }}</h1>
+      <p class="hero__desc" #description>{{ 'HERO.DESCRIPTION' | translate }}</p>
 
-    <!-- ─── Image Card ─── -->
-    <div class="hero__image-wrapper">
-
-      <!--
-        The image lives INSIDE the SVG so the mask coordinate system
-        is identical to the image coordinate system — no cross-element bugs.
-
-        IMPORTANT: Angular sanitizes SVG "mask" attributes, so we use
-        [attr.mask] binding with a safe string to bypass sanitization,
-        OR we rely on the TypeScript to set it via setAttribute after render.
-        The mask is set programmatically in hero.ts via setAttribute.
-      -->
-      <svg
-        class="hero__image-svg"
-        viewBox="0 0 960 540"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-label="Hero image"
-        role="img"
-      >
-        <defs>
-          <!-- 1. Base cutout mask: creates sharp transparent holes for the pills -->
-          <mask id="cutout-mask">
-            <rect x="-100" y="-100" width="1160" height="740" fill="white" />
-            <rect id="mask-tl" x="0" y="0" width="0" height="0" rx="9999" ry="9999" fill="black" />
-            <rect id="mask-br" x="0" y="0" width="0" height="0" rx="9999" ry="9999" fill="black" />
-          </mask>
-
-          <!-- 2. Gooey filter: blurs and sharpens alpha to create inverted curves -->
-          <filter id="gooey-filter" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur" />
-            <feColorMatrix in="blur" mode="matrix" values="
-              1 0 0 0 0
-              0 1 0 0 0
-              0 0 1 0 0
-              0 0 0 20 -9" result="gooey" />
-          </filter>
-
-          <!-- 3. Final smooth mask: applies the gooey filter to the sharp holes -->
-          <mask id="hero-img-mask">
-            <rect x="-100" y="-100" width="1160" height="740" fill="white" mask="url(#cutout-mask)" filter="url(#gooey-filter)" />
-          </mask>
-
-          <!-- 4. Crisp outer boundary for the main image card -->
-          <clipPath id="hero-outer-clip">
-            <rect x="0" y="0" width="960" height="540" rx="28" ry="28" />
-          </clipPath>
-
-          <!-- Gradient overlay for the bottom dark fade -->
-          <linearGradient id="hero-overlay-grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="55%" stop-color="rgba(0,0,0,0)" />
-            <stop offset="100%" stop-color="rgba(5,5,8,0.8)" />
-          </linearGradient>
-        </defs>
-
-        <!-- Image Group: Mask and Clip-path applied via TypeScript to bypass sanitization -->
-        <g id="hero-img-group">
-          <image
-            href="assets/images/hero-team.png"
-            x="0" y="0"
-            width="960" height="540"
-            preserveAspectRatio="xMidYMid slice"
-          />
-          <rect
-            x="0" y="0" width="960" height="540"
-            fill="url(#hero-overlay-grad)"
-          />
-        </g>
-      </svg>
-
-      <!-- Top-left CTA (floats outside the image card) -->
-      <div class="hero__cta-wrapper">
-        <a href="#solutions" class="hero__cta btn-primary">
+      <div class="hero__actions" #actionsRef>
+        <a href="#solutions" class="btn-primary" #ctaBtn>
           {{ 'HERO.CTA' | translate }}
         </a>
-      </div>
-
-      <!-- Bottom-right Learn More (floats outside the image card) -->
-      <div class="hero__learn-more-wrapper">
-        <a href="#services" class="hero__learn-more btn-secondary">
+        <a href="#services" class="btn-secondary" #learnMoreBtn>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="10" />
@@ -100,7 +28,66 @@
           {{ 'HERO.LEARN_MORE' | translate }}
         </a>
       </div>
-
     </div>
+
+    <!-- ─── Modern Visual (No Image) ─── -->
+    <div class="hero__visual" #visualContainer>
+      <!-- Floating Glass Cards representing platform features -->
+      <div class="hero__card hero__card--1" #featureCard>
+        <div class="hero__card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20M2 12h20" />
+          </svg>
+        </div>
+        <div class="hero__card-content">
+          <span class="hero__card-label">Automated Bidding</span>
+          <span class="hero__card-value">+24% ROI</span>
+        </div>
+      </div>
+
+      <div class="hero__card hero__card--2" #featureCard>
+        <div class="hero__card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 6v6l4 2" />
+          </svg>
+        </div>
+        <div class="hero__card-content">
+          <span class="hero__card-label">Real-time Analytics</span>
+          <span class="hero__card-value">Live Data</span>
+        </div>
+      </div>
+
+      <div class="hero__card hero__card--3" #featureCard>
+        <div class="hero__card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+        </div>
+        <div class="hero__card-content">
+          <span class="hero__card-label">Global Network</span>
+          <span class="hero__card-value">1.2M Reach</span>
+        </div>
+      </div>
+
+      <!-- Central Abstract Shape -->
+      <div class="hero__abstract-shape" #abstractShape>
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="shape-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:var(--accent-cyan);stop-opacity:0.2" />
+              <stop offset="100%" style="stop-color:var(--accent-pink);stop-opacity:0.2" />
+            </linearGradient>
+          </defs>
+          <path fill="url(#shape-grad)" d="M44.7,-76.4C58.3,-69.2,70.1,-58.5,78.5,-45.6C86.9,-32.7,91.9,-17.7,91.3,-2.8C90.7,12.1,84.5,26.9,76,39.8C67.5,52.7,56.7,63.7,43.7,71.5C30.7,79.3,15.4,83.9,0.2,83.5C-14.9,83.1,-29.8,77.8,-43,70.2C-56.1,62.6,-67.4,52.8,-75.6,40.5C-83.8,28.2,-88.8,13.4,-89.1,-1.5C-89.4,-16.4,-85,-31.4,-76.6,-44.1C-68.2,-56.8,-55.8,-67.2,-42.1,-74.3C-28.4,-81.4,-14.2,-85.2,0.3,-85.7C14.8,-86.2,29.6,-83.5,44.7,-76.4Z" transform="translate(100 100)" />
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
   </div>
 </section>

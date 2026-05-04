@@ -1,8 +1,8 @@
 <section class="solutions section" id="solutions" aria-labelledby="solutions-heading" #sectionRef>
   <div class="container">
     <div class="solutions__header">
-      <p class="solutions__subtitle">{{ 'SOLUTIONS.BADGE' | translate }}</p>
-      <h2 class="solutions__title text-gradient-primary" id="solutions-heading">
+      <p class="solutions__subtitle" #subtitleRef>{{ 'SOLUTIONS.BADGE' | translate }}</p>
+      <h2 class="solutions__title text-gradient-primary" id="solutions-heading" #titleRef>
         {{ 'SOLUTIONS.TITLE_PRE' | translate }} <span class="solutions__highlight">{{ 'SOLUTIONS.TITLE_HIGHLIGHT' | translate }}</span> {{ 'SOLUTIONS.TITLE_POST' | translate }}<br />
         {{ 'SOLUTIONS.TITLE_SUB' | translate }}
       </h2>
@@ -10,12 +10,14 @@
 
     <div class="solutions__cards">
       <!-- Left: Image (spans 2 cols) -->
-      <article class="solutions__card solutions__card--image">
+      <article class="solutions__card solutions__card--image" #cardRef>
         <img
           src="assets/images/media_advertisers.png"
           alt=""
           class="solutions__image"
           loading="lazy"
+          width="600"
+          height="400"
         />
         <div class="solutions__image-overlay">
           <div class="solutions__image-content">
@@ -26,7 +28,7 @@
       </article>
 
       <!-- Campaign Planning -->
-      <article class="solutions__card" aria-labelledby="sol-campaign">
+      <article class="solutions__card" aria-labelledby="sol-campaign" #cardRef>
         <div class="solutions__card-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
@@ -44,7 +46,7 @@
       </article>
 
       <!-- Media Buying -->
-      <article class="solutions__card" aria-labelledby="sol-buying">
+      <article class="solutions__card" aria-labelledby="sol-buying" #cardRef>
         <div class="solutions__card-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="3" y="4" width="18" height="14" rx="2"></rect>
@@ -62,7 +64,7 @@
       </article>
 
       <!-- Ad Distribution -->
-      <article class="solutions__card solutions__card--accent" aria-labelledby="sol-distribution">
+      <article class="solutions__card solutions__card--accent" aria-labelledby="sol-distribution" #cardRef>
         <div class="solutions__card-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="18" cy="5" r="3"></circle>
@@ -83,7 +85,7 @@
       </article>
 
       <!-- Performance Analytics -->
-      <article class="solutions__card" aria-labelledby="sol-analytics">
+      <article class="solutions__card" aria-labelledby="sol-analytics" #cardRef>
         <div class="solutions__card-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="3" y="4" width="18" height="14" rx="2"></rect>

@@ -1,4 +1,15 @@
-import { Component, input, output, signal, inject, AfterViewInit, PLATFORM_ID, ElementRef } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  inject,
+  AfterViewInit,
+  PLATFORM_ID,
+  ElementRef,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AnimationService } from '../../services/animation.service';
@@ -7,12 +18,18 @@ import { AnimationService } from '../../services/animation.service';
   selector: 'app-navbar',
   imports: [TranslateModule],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.scss'
+  styleUrl: './navbar.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent implements AfterViewInit {
   private platformId = inject(PLATFORM_ID);
   private anim = inject(AnimationService);
   private el = inject(ElementRef);
+
+  navRef = viewChild<ElementRef>('navRef');
+  logoRef = viewChild<ElementRef>('logoRef');
+  linksRef = viewChild<ElementRef>('linksRef');
+  actionsRef = viewChild<ElementRef>('actionsRef');
 
   currentLang = input<string>('en');
   languageChange = output<string>();
@@ -30,19 +47,40 @@ export class NavbarComponent implements AfterViewInit {
     const gsap = this.anim.gsap;
     const rm = this.anim.prefersReducedMotion();
 
-    // Reveal the host element (which is hidden in CSS to prevent FOUC)
+    const logo = this.logoRef()?.nativeElement;
+    const links = this.linksRef()?.nativeElement?.querySelectorAll('li');
+    const actions = this.actionsRef()?.nativeElement;
+
+    // Reveal the host element
     gsap.set(this.el.nativeElement, { visibility: 'visible' });
 
-    gsap.fromTo(this.el.nativeElement,
+    const tl = gsap.timeline({
+      defaults: { ease: this.anim.EASES.DECELERATE },
+    });
+
+    // Main bar slide down
+    tl.fromTo(this.el.nativeElement,
       { opacity: 0, y: rm ? 0 : -30 },
       { 
         opacity: 1, 
         y: 0, 
-        duration: rm ? 0.01 : 1.2, 
-        ease: 'power3.out',
-        delay: 0.1 // Slight delay to ensure layout stability
+        duration: rm ? 0.01 : this.anim.DURATIONS.SLOW,
+        delay: 0.1 
       }
     );
+
+    // Stagger elements
+    if (logo) {
+      tl.from(logo, { opacity: 0, x: -20, duration: 0.5 }, '-=0.4');
+    }
+
+    if (links?.length) {
+      tl.from(links, { opacity: 0, y: -10, stagger: 0.05, duration: 0.4 }, '-=0.3');
+    }
+
+    if (actions) {
+      tl.from(actions, { opacity: 0, x: 20, duration: 0.5 }, '-=0.4');
+    }
   }
 
   toggleMobileMenu(): void {

@@ -11,200 +11,151 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AnimationService } from '../../services/animation.service';
+import { PillMaskDirective } from '../../directives/pill-mask.directive';
 
 /**
  * HeroComponent
  * 
  * Renders the main landing hero section.
- * Uses ResizeObserver to calculate dynamic SVG mask coordinates, enabling
- * pixel-perfect, responsive "pill" cutouts for the floating CTA buttons.
- * Integrates with AnimationService for staggered GSAP entrance choreographies.
+ * Entrance animations are choreographed via AnimationService tokens.
+ * Geometric SVG masking is handled by the PillMaskDirective.
  */
 @Component({
   selector: 'app-hero',
-  imports: [TranslateModule],
+  imports: [TranslateModule, PillMaskDirective],
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeroComponent implements AfterViewInit, OnDestroy {
+export class HeroComponent implements AfterViewInit {
   private platformId = inject(PLATFORM_ID);
   private anim = inject(AnimationService);
+  
   heroSection = viewChild<ElementRef>('heroSection');
-  private ro?: ResizeObserver;
+  badge = viewChild<ElementRef>('badge');
+  subtitle = viewChild<ElementRef>('subtitle');
+  title = viewChild<ElementRef>('title');
+  description = viewChild<ElementRef>('description');
+  heroImage = viewChild<ElementRef>('heroImage');
+  imgGroup = viewChild<ElementRef>('imgGroup');
+  imageWrapper = viewChild<ElementRef>('imageWrapper');
+  ctaBtn = viewChild<ElementRef>('ctaBtn');
+  learnMoreBtn = viewChild<ElementRef>('learnMoreBtn');
+  glowCyan = viewChild<ElementRef>('glowCyan');
+  glowPurple = viewChild<ElementRef>('glowPurple');
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.initAnimations();
-      this.initResizeObserver();
+      // Defer animations slightly to prioritize initial paint and LCP
+      setTimeout(() => {
+        this.initAnimations();
+        this.applySvgAttributes();
+      }, 50);
     }
   }
 
-  ngOnDestroy(): void {
-    this.ro?.disconnect();
-  }
-
-  private initResizeObserver(): void {
-    const el = this.heroSection()?.nativeElement;
-    if (!el) return;
-
-    const svgEl = el.querySelector('.hero__image-svg') as SVGSVGElement;
-    const ctaWrapper = el.querySelector('.hero__cta-wrapper') as HTMLElement;
-    const lmWrapper = el.querySelector('.hero__learn-more-wrapper') as HTMLElement;
-    const maskTl = el.querySelector('#mask-tl') as SVGRectElement | null;
-    const maskBr = el.querySelector('#mask-br') as SVGRectElement | null;
-
-    if (!svgEl || !window.ResizeObserver) return;
-
-    // Angular strips SVG presentation attributes like `mask` during sanitization.
-    // We must apply them imperatively via setAttribute AFTER the view renders.
-    const imgGroup = el.querySelector('#hero-img-group');
+  /**
+   * Angular strips SVG presentation attributes like `mask` during sanitization.
+   * We must apply them imperatively via setAttribute AFTER the view renders.
+   */
+  private applySvgAttributes(): void {
+    const imgGroup = this.imgGroup()?.nativeElement;
     if (imgGroup) {
       imgGroup.setAttribute('mask', 'url(#hero-img-mask)');
       imgGroup.setAttribute('clip-path', 'url(#hero-outer-clip)');
     }
-
-    // SVG viewBox is fixed at 960×540 (matches the image's natural ratio)
-    const VB_W = 960;
-    const VB_H = 540;
-    // Gap around the button (in screen pixels) before scaling to SVG units.
-    // Must match the padding on .hero__cta-wrapper / .hero__learn-more-wrapper (16px).
-    const GAP_PX = 16;
-
-    const update = () => {
-      const svgRect = svgEl.getBoundingClientRect();
-      if (svgRect.width === 0) return; // skip if not yet laid out
-
-      // Scale factors: 1 CSS pixel = how many SVG user units
-      const scaleX = VB_W / svgRect.width;
-      const scaleY = VB_H / svgRect.height;
-      const gapX = GAP_PX * scaleX;
-      const gapY = GAP_PX * scaleY;
-
-      // ─── Top-left pill cutout ──────────────────────────────
-      if (ctaWrapper && maskTl) {
-        const btn = ctaWrapper.querySelector('.hero__cta') as HTMLElement;
-        if (btn) {
-          const b = btn.getBoundingClientRect();
-          const x = (b.left - svgRect.left) * scaleX - gapX;
-          const y = (b.top - svgRect.top) * scaleY - gapY;
-          const w = b.width * scaleX + gapX * 2;
-          const h = b.height * scaleY + gapY * 2;
-          maskTl.setAttribute('x', `${x}`);
-          maskTl.setAttribute('y', `${y}`);
-          maskTl.setAttribute('width', `${w}`);
-          maskTl.setAttribute('height', `${h}`);
-        }
-      }
-
-      // ─── Bottom-right pill cutout ──────────────────────────
-      if (lmWrapper && maskBr) {
-        const btn = lmWrapper.querySelector('.hero__learn-more') as HTMLElement;
-        if (btn) {
-          const b = btn.getBoundingClientRect();
-          const x = (b.left - svgRect.left) * scaleX - gapX;
-          const y = (b.top - svgRect.top) * scaleY - gapY;
-          const w = b.width * scaleX + gapX * 2;
-          const h = b.height * scaleY + gapY * 2;
-          maskBr.setAttribute('x', `${x}`);
-          maskBr.setAttribute('y', `${y}`);
-          maskBr.setAttribute('width', `${w}`);
-          maskBr.setAttribute('height', `${h}`);
-        }
-      }
-    };
-
-    this.ro = new ResizeObserver(update);
-    this.ro.observe(svgEl);
-    if (ctaWrapper) this.ro.observe(ctaWrapper);
-    if (lmWrapper) this.ro.observe(lmWrapper);
-
-    // Double-rAF ensures layout is fully stable before first calculation
-    requestAnimationFrame(() => requestAnimationFrame(update));
   }
 
   private async initAnimations(): Promise<void> {
     await this.anim.ready();
     const gsap = this.anim.gsap;
-    const ScrollTrigger = this.anim.ScrollTrigger;
     const rm = this.anim.prefersReducedMotion();
 
     const el = this.heroSection()?.nativeElement;
-    if (!el) return;
+
+    const els = {
+      badge: this.badge()?.nativeElement,
+      subtitle: this.subtitle()?.nativeElement,
+      title: this.title()?.nativeElement,
+      description: this.description()?.nativeElement,
+      image: this.heroImage()?.nativeElement,
+      cta: this.ctaBtn()?.nativeElement,
+      learnMore: this.learnMoreBtn()?.nativeElement,
+      glowCyan: this.glowCyan()?.nativeElement,
+      glowPurple: this.glowPurple()?.nativeElement,
+    };
+
+    if (!els.badge) return;
 
     // ── Choreographed entrance timeline ──────────────────────────
     // CSS starts elements at opacity:0 (FOUC prevention in hero.scss)
     // Delay added to orchestrate with the Navbar slide-down sequence
     const tl = gsap.timeline({ 
       delay: 0.5,
-      defaults: { ease: 'power4.out' } 
+      defaults: { ease: this.anim.EASES.ENTRANCE } 
     });
 
-    tl.fromTo(el.querySelector('.hero__badge'),
+    tl.fromTo(els.badge,
       { opacity: 0, y: rm ? 0 : 30, scale: rm ? 1 : 0.95 },
-      { opacity: 1, y: 0, scale: 1, duration: rm ? 0.01 : 0.8 }
+      { opacity: 1, y: 0, scale: 1, duration: rm ? 0.01 : this.anim.DURATIONS.ENTRANCE }
     )
-      .fromTo(el.querySelector('.hero__subtitle'),
+      .fromTo(els.subtitle,
         { opacity: 0, y: rm ? 0 : 20, filter: rm ? 'none' : 'blur(8px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: rm ? 0.01 : 0.8 },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: rm ? 0.01 : this.anim.DURATIONS.ENTRANCE },
         '-=0.6'
       )
-      .fromTo(el.querySelector('.hero__title'),
+      .fromTo(els.title,
         { opacity: 0, y: rm ? 0 : 40, filter: rm ? 'none' : 'blur(12px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: rm ? 0.01 : 1.2 },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: rm ? 0.01 : this.anim.DURATIONS.SLOW },
         '-=0.6'
       )
-      .fromTo(el.querySelector('.hero__desc'),
+      .fromTo(els.description,
         { opacity: 0, y: rm ? 0 : 20, filter: rm ? 'none' : 'blur(8px)' },
         { opacity: 1, y: 0, filter: 'blur(0px)', duration: rm ? 0.01 : 1 },
         '-=0.9'
       )
-      .fromTo(el.querySelector('.hero__image-svg'),
+      .fromTo(els.image,
         { opacity: 0, y: rm ? 0 : 80, scale: rm ? 1 : 0.98 },
-        { opacity: 1, y: 0, scale: 1, duration: rm ? 0.01 : 1.4, ease: 'power3.out' },
+        { opacity: 1, y: 0, scale: 1, duration: rm ? 0.01 : 1.4, ease: this.anim.EASES.DECELERATE },
         '-=0.7'
       )
-      .fromTo(el.querySelector('.hero__cta'),
+      .fromTo(els.cta,
         { opacity: 0, x: rm ? 0 : -40, scale: rm ? 1 : 0.95 },
-        { opacity: 1, x: 0, scale: 1, duration: rm ? 0.01 : 0.8, ease: 'back.out(1.2)', clearProps: 'transform' },
+        { opacity: 1, x: 0, scale: 1, duration: rm ? 0.01 : this.anim.DURATIONS.ENTRANCE, ease: this.anim.EASES.POP, clearProps: 'transform' },
         '-=0.9'
       )
-      .fromTo(el.querySelector('.hero__learn-more'),
+      .fromTo(els.learnMore,
         { opacity: 0, x: rm ? 0 : 40, scale: rm ? 1 : 0.95 },
-        { opacity: 1, x: 0, scale: 1, duration: rm ? 0.01 : 0.8, ease: 'back.out(1.2)', clearProps: 'transform' },
+        { opacity: 1, x: 0, scale: 1, duration: rm ? 0.01 : this.anim.DURATIONS.ENTRANCE, ease: this.anim.EASES.POP, clearProps: 'transform' },
         '-=0.7'
       );
 
     // ── Button micro-interactions (after entrance completes) ──────
     if (!rm) {
       tl.add(() => {
-        const ctaBtn = el.querySelector('.hero__cta') as HTMLElement | null;
-        const lmBtn = el.querySelector('.hero__learn-more') as HTMLElement | null;
-        if (ctaBtn) this.anim.addButtonHover(ctaBtn, 1.05);
-        if (lmBtn) this.anim.addButtonHover(lmBtn, 1.04);
+        if (els.cta) this.anim.addButtonHover(els.cta, 1.05);
+        if (els.learnMore) this.anim.addButtonHover(els.learnMore, 1.04);
       });
     }
 
     // ── Continuous floating animation for background glows ────────
     if (!rm) {
-      const glowCyan = el.querySelector('.hero__glow--cyan');
-      if (glowCyan) {
-        gsap.to(glowCyan, {
+      if (els.glowCyan) {
+        gsap.to(els.glowCyan, {
           y: -30, x: 20, rotation: -10,
           duration: 8, repeat: -1, yoyo: true, ease: 'sine.inOut',
         });
       }
 
-      const glowPurple = el.querySelector('.hero__glow--purple');
-      if (glowPurple) {
-        gsap.to(glowPurple, {
+      if (els.glowPurple) {
+        gsap.to(els.glowPurple, {
           y: 40, x: -20, rotation: 20,
           duration: 10, repeat: -1, yoyo: true, ease: 'sine.inOut',
         });
       }
 
       // ── Subtle parallax float on scroll ────────────────────────
-      const imageWrapper = el.querySelector('.hero__image-wrapper');
+      const imageWrapper = this.imageWrapper()?.nativeElement;
       if (imageWrapper) {
         gsap.to(imageWrapper, {
           y: -30,

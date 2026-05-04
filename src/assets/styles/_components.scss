@@ -144,21 +144,23 @@
   z-index: 0;
   will-change: transform;
   border-radius: 50%;
-  filter: blur(40px);
+  // Large blur for the "atmospheric" glow effect
+  filter: blur(80px);
+  opacity: 0.4;
 
   &--cyan {
-    width: 120vw;
-    height: 120vw;
-    max-width: 1200px;
-    max-height: 1200px;
-    box-shadow: inset 120px 0 120px -60px rgba(0, 200, 255, 0.08);
+    width: 60vw;
+    height: 60vw;
+    max-width: 800px;
+    max-height: 800px;
+    background: radial-gradient(circle, rgba(0, 200, 255, 0.15) 0%, transparent 70%);
   }
 
   &--purple {
-    width: 120vw;
-    height: 120vw;
-    max-width: 1200px;
-    max-height: 1200px;
-    box-shadow: inset -120px 0 120px -60px rgba(233, 30, 99, 0.1);
+    width: 60vw;
+    height: 60vw;
+    max-width: 800px;
+    max-height: 800px;
+    background: radial-gradient(circle, rgba(233, 30, 99, 0.15) 0%, transparent 70%);
   }
 }

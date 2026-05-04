@@ -1,10 +1,10 @@
 <section class="cta-section section" id="cta" aria-labelledby="cta-heading" #sectionRef>
   <div class="container">
-    <div class="cta-section__card">
-      <h2 class="cta-section__title" id="cta-heading">{{ 'CTA_SECTION.TITLE' | translate }}</h2>
+    <div class="cta-section__card" #cardRef>
+      <h2 class="cta-section__title" id="cta-heading" #titleRef>{{ 'CTA_SECTION.TITLE' | translate }}</h2>
 
       <div class="cta-section__points">
-        <div class="cta-section__point">
+        <div class="cta-section__point" #pointRef>
           <svg class="cta-section__check" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <circle cx="12" cy="12" r="12" fill="#E6194B" />
             <path d="M7 12.5l3 3 7-7" stroke="#000000" stroke-width="2.5" stroke-linecap="round"
@@ -12,7 +12,7 @@
           </svg>
           <span>{{ 'CTA_SECTION.POINT1' | translate }}</span>
         </div>
-        <div class="cta-section__point">
+        <div class="cta-section__point" #pointRef>
           <svg class="cta-section__check" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <circle cx="12" cy="12" r="12" fill="#E6194B" />
             <path d="M7 12.5l3 3 7-7" stroke="#000000" stroke-width="2.5" stroke-linecap="round"
@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <a href="#" class="cta-section__btn btn-primary">
+      <a href="#" class="cta-section__btn btn-primary" #btnRef>
         {{ 'CTA_SECTION.CTA' | translate }}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

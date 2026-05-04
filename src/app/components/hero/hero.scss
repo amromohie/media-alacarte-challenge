@@ -1,26 +1,15 @@
 // ── Hero Section ─────────────────────────────────────────
-// Premium dark SaaS hero with floating pill buttons
-// attached via inverted-radius cutout corners.
-//
-// TECHNIQUE (box-shadow inverted radius):
-//   Each button sits inside an opaque wrapper that covers
-//   one corner of the image card. Two pseudo-elements per
-$card-r:   28px;       // image card corner radius
-$offset:   -44px;      // Floating button offset
+$card-r:   28px;       
+// Responsive offset: smaller on mobile to avoid screen overflow
+$offset-mobile: -20px;
+$offset-desktop: -44px;
 
-// ══════════════════════════════════════════════════════════
-//  BASE
-// ══════════════════════════════════════════════════════════
 :host {
   display: block;
   position: relative;
-  // NO overflow:hidden here — the floating buttons must not be clipped.
   overflow: visible;
 }
 
-// ── FOUC prevention ──────────────────────────────────────
-// Elements start invisible; GSAP reveals them on init.
-// This prevents the flash of unstyled content before JS loads.
 .hero__badge,
 .hero__subtitle,
 .hero__title,
@@ -34,34 +23,37 @@ $offset:   -44px;      // Floating button offset
 
 .hero {
   position: relative;
-  padding-block-start: 4rem;
+  padding-block-start: 5rem;
   padding-block-end: 4rem;
-  min-height: 85vh;
+  min-height: 80vh;
   display: flex;
   align-items: center;
 }
 
-/* ── Decorative gradient blobs (Wavy Arcs) ── */
 .hero__glow {
   position: absolute;
   pointer-events: none;
   z-index: 0;
   will-change: transform;
+  contain: layout paint; // Optimization: isolate these elements from layout/paint calculations
 }
 
 .hero__glow--cyan {
-  top: -30%;
-  right: -20%;
-  transform: rotate(-15deg);
+  top: -10%;
+  right: -10%;
+  width: 50vw;
+  height: 50vw;
+  max-width: 600px;
 }
 
 .hero__glow--purple {
-  bottom: -30%;
-  left: -20%;
-  transform: rotate(15deg);
+  bottom: -10%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  max-width: 600px;
 }
 
-/* ── Container ── */
 .hero__container {
   position: relative;
   z-index: 1;
@@ -69,40 +61,47 @@ $offset:   -44px;      // Floating button offset
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 3rem;
+  gap: 2.5rem;
 }
 
-// ══════════════════════════════════════════════════════════
-//  TEXT CONTENT
-// ══════════════════════════════════════════════════════════
 .hero__content {
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 800px;
+  padding-inline: 1rem;
 }
 
 .hero__badge {
-  margin-block-end: 2rem;
+  margin-block-end: 1.5rem;
 }
 
 .hero__subtitle {
   color: #E91E63;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+
+.hero__title {
+  // Fluid typography: 2.5rem on mobile up to 4.5rem on desktop
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  line-height: 1.1;
+  margin-block-end: 1.5rem;
 }
 
 .hero__desc {
   max-width: 600px;
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  opacity: 0.9;
 }
 
-// ══════════════════════════════════════════════════════════
-//  IMAGE CARD
-// ══════════════════════════════════════════════════════════
 .hero__image-wrapper {
   position: relative;
   width: 100%;
   max-width: 900px;
-  margin-block-start: 0;
-  // overflow:visible so the absolutely-placed buttons can spill outside
+  margin-block-start: 1rem;
   overflow: visible;
   isolation: isolate;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -111,58 +110,54 @@ $offset:   -44px;      // Floating button offset
     transform: translateY(-4px) scale(1.01);
 
     .hero__image-svg {
-      filter:
-        drop-shadow(0 50px 100px rgba(0, 0, 0, 0.7)) drop-shadow(0 16px 40px rgba(0, 0, 0, 0.5));
+      filter: drop-shadow(0 50px 100px rgba(0, 0, 0, 0.7));
     }
   }
 }
 
-// The SVG IS the image card — rounded corners handled via mask rect rx.
-// Use filter:drop-shadow (not box-shadow) so the shadow follows the masked shape.
 .hero__image-svg {
   display: block;
   width: 100%;
   height: auto;
-  filter:
-    drop-shadow(0 40px 80px rgba(0, 0, 0, 0.6)) drop-shadow(0 12px 32px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.6));
   transform: translateZ(0);
   transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-// ══════════════════════════════════════════════════════════
-//  TOP-LEFT · "Start your journey!" CTA
-// ══════════════════════════════════════════════════════════
 .hero__cta-wrapper {
   position: absolute;
-  top: $offset;
-  left: $offset;
-  // Padding keeps the mask gap between button edge and image edge
-  padding: 0 16px 16px 0;
+  top: $offset-mobile;
+  left: $offset-mobile;
+  padding: 0 12px 12px 0;
 }
 
-// ══════════════════════════════════════════════════════════
-//  BOTTOM-RIGHT · "Learn More" button
-// ══════════════════════════════════════════════════════════
 .hero__learn-more-wrapper {
   position: absolute;
-  bottom: $offset;
-  right: $offset;
-  padding: 16px 0 0 16px;
+  bottom: $offset-mobile;
+  right: $offset-mobile;
+  padding: 12px 0 0 12px;
 }
 
-// Legacy cutout masks removed.
+@media (min-width: 768px) {
+  .hero {
+    padding-block-start: 8rem;
+  }
 
-// ══════════════════════════════════════════════════════════
-//  RESPONSIVE
-// ══════════════════════════════════════════════════════════
+  .hero__cta-wrapper {
+    top: $offset-desktop;
+    left: $offset-desktop;
+    padding: 0 16px 16px 0;
+  }
+
+  .hero__learn-more-wrapper {
+    bottom: $offset-desktop;
+    right: $offset-desktop;
+    padding: 16px 0 0 16px;
+  }
+}
+
 @media (min-width: 1024px) {
   .hero {
     min-height: 90vh;
-    padding-block-start: 3rem;
-    padding-block-end: 6rem;
-  }
-
-  .hero__container {
-    gap: 1.5rem;
   }
 }

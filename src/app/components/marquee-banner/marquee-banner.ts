@@ -86,14 +86,14 @@ export class MarqueeBannerComponent implements AfterViewInit, OnDestroy {
         
         gsap.to(this.tweens, { 
           timeScale: speedScale, 
-          duration: 0.2, 
+          duration: this.anim.DURATIONS.QUICK, 
           overwrite: 'auto' 
         });
         
         // Return to normal speed after scrolling stops
         gsap.to(this.tweens, { 
           timeScale: 1, 
-          duration: 1, 
+          duration: this.anim.DURATIONS.BASE, 
           delay: 0.1, 
           overwrite: 'auto' 
         });

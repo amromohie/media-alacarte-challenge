@@ -1,4 +1,13 @@
-import { Component, inject, AfterViewInit, PLATFORM_ID, ElementRef, viewChild, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  inject,
+  AfterViewInit,
+  PLATFORM_ID,
+  ElementRef,
+  viewChild,
+  viewChildren,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AnimationService } from '../../services/animation.service';
@@ -6,8 +15,7 @@ import { AnimationService } from '../../services/animation.service';
 /**
  * ServicesComponent
  * 
- * Displays the core offerings/services in a grid.
- * Features 3D tilt hover effects and scroll-triggered GSAP entrance animations.
+ * Renders the services bento grid with 3D tilt effects and entrance animations.
  * Uses OnPush change detection for optimized rendering performance.
  */
 @Component({
@@ -20,56 +28,59 @@ import { AnimationService } from '../../services/animation.service';
 export class ServicesComponent implements AfterViewInit {
   private platformId = inject(PLATFORM_ID);
   private anim = inject(AnimationService);
+  
   sectionRef = viewChild<ElementRef>('sectionRef');
+  iconRef = viewChild<ElementRef>('iconRef');
+  titleRef = viewChild<ElementRef>('titleRef');
+  cardRefs = viewChildren<ElementRef>('cardRef');
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.initScrollAnimation();
       this.initCardInteractions();
+      this.initScrollAnimation();
     }
   }
 
   /**
-   * CSS class toggle for overlay visibility (unchanged).
+   * CSS class toggle for overlay visibility.
    * GSAP tilt is handled separately in initCardInteractions().
    */
   private initCardHoverClass(): void {
-    const el = this.sectionRef()?.nativeElement;
-    if (!el) return;
-
-    el.querySelectorAll('.services__card--tall').forEach((card: HTMLElement) => {
-      card.addEventListener('mouseenter', () => card.classList.add('is-hovered'));
-      card.addEventListener('mouseleave', () => card.classList.remove('is-hovered'));
+    this.cardRefs().forEach((cardRef) => {
+      const card = cardRef.nativeElement;
+      if (card.classList.contains('services__card--tall')) {
+        card.addEventListener('mouseenter', () => card.classList.add('is-hovered'));
+        card.addEventListener('mouseleave', () => card.classList.remove('is-hovered'));
+      }
     });
   }
 
   /** 3D tilt + lift hover on all cards, CSS class toggle on tall cards. */
   private async initCardInteractions(): Promise<void> {
-    await this.anim.ready();
-    const rm = this.anim.prefersReducedMotion();
-
-    const el = this.sectionRef()?.nativeElement;
-    if (!el) return;
-
-    // CSS class toggle for tall-card overlays (always needed for CSS transitions)
     this.initCardHoverClass();
 
-    if (rm) return; // skip GSAP hover in reduced-motion mode
-
-    // 3D tilt on ALL cards — max 6° so it stays subtle
+    await this.anim.ready();
     const gsap = this.anim.gsap;
-    el.querySelectorAll('.services__card').forEach((card: HTMLElement) => {
-      this.anim.addTiltHover(card, 6);
+    const rm = this.anim.prefersReducedMotion();
 
-      // Arrow nudge on hover
-      const arrow = card.querySelector('.services__card-arrow') as HTMLElement | null;
+    this.cardRefs().forEach((cardRef) => {
+      const card = cardRef.nativeElement;
+      if (!card) return;
+
+      // 1. Arrow Micro-interaction
+      const arrow = card.querySelector('.services__card-arrow');
       if (arrow) {
         card.addEventListener('mouseenter', () => {
-          gsap.to(arrow, { x: 4, y: -4, duration: 0.25, ease: 'power2.out', overwrite: 'auto' });
+          gsap.to(arrow, { x: 5, y: -5, duration: this.anim.DURATIONS.QUICK, ease: this.anim.EASES.SMOOTH, overwrite: 'auto' });
         });
         card.addEventListener('mouseleave', () => {
-          gsap.to(arrow, { x: 0, y: 0, duration: 0.35, ease: 'power3.out', overwrite: 'auto' });
+          gsap.to(arrow, { x: 0, y: 0, duration: this.anim.DURATIONS.BASE, ease: this.anim.EASES.SMOOTH, overwrite: 'auto' });
         });
+      }
+
+      // 2. 3D Tilt Effect
+      if (!rm) {
+        this.anim.addTiltHover(card, 5);
       }
     });
   }
@@ -77,47 +88,59 @@ export class ServicesComponent implements AfterViewInit {
   private async initScrollAnimation(): Promise<void> {
     await this.anim.ready();
     const gsap = this.anim.gsap;
-    const ScrollTrigger = this.anim.ScrollTrigger;
     const rm = this.anim.prefersReducedMotion();
 
     const el = this.sectionRef()?.nativeElement;
+    const icon = this.iconRef()?.nativeElement;
+    const title = this.titleRef()?.nativeElement;
+    const cards = this.cardRefs().map(c => c.nativeElement);
+
     if (!el) return;
 
     const tl = gsap.timeline({
-      scrollTrigger: { trigger: el, start: 'top 80%' },
-      defaults: { ease: 'power3.out' },
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 80%',
+      },
+      defaults: { ease: this.anim.EASES.DECELERATE },
     });
 
-    // Section icon + title entrance
-    tl.from(el.querySelector('.services__icon'), {
-      opacity: 0,
-      scale: rm ? 1 : 0,
-      duration: rm ? 0.01 : 0.5,
-      ease: rm ? 'none' : 'back.out(2)',
-    }).from(
-      el.querySelector('.services__title'),
-      {
+    if (icon) {
+      tl.from(icon, {
         opacity: 0,
-        y: rm ? 0 : 30,
-        filter: rm ? 'none' : 'blur(6px)',
-        duration: rm ? 0.01 : 0.7,
-      },
-      '-=0.2'
-    );
-
-    // Cards stagger — clearProps restores CSS :hover transitions
-    tl.from(
-      el.querySelectorAll('.services__card'),
-      {
-        opacity: 0,
-        y: rm ? 0 : 50,
-        scale: rm ? 1 : 0.95,
-        stagger: rm ? 0 : 0.15,
+        scale: 0.5,
+        rotation: -45,
         duration: rm ? 0.01 : 0.8,
-        ease: 'power2.out',
-        clearProps: 'opacity,transform,filter',
-      },
-      '-=0.3'
-    );
+        ease: 'back.out(1.7)',
+      });
+    }
+
+    if (title) {
+      tl.from(
+        title,
+        {
+          opacity: 0,
+          y: rm ? 0 : 30,
+          filter: rm ? 'none' : 'blur(8px)',
+          duration: rm ? 0.01 : this.anim.DURATIONS.BASE,
+        },
+        '-=0.5'
+      );
+    }
+
+    if (cards.length) {
+      tl.from(
+        cards,
+        {
+          opacity: 0,
+          y: rm ? 0 : 50,
+          scale: rm ? 1 : 0.95,
+          stagger: rm ? 0 : 0.15,
+          duration: rm ? 0.01 : this.anim.DURATIONS.ENTRANCE,
+          clearProps: 'transform',
+        },
+        '-=0.4'
+      );
+    }
   }
 }

@@ -1,12 +1,13 @@
-<header class="navbar" role="banner">
+<header class="navbar" role="banner" #navRef>
   <nav class="navbar__inner container" aria-label="Main navigation">
     <!-- Logo -->
-    <a href="#" class="navbar__logo" aria-label="Media Ala Carte Home">
-      <img src="assets/images/logo.png" alt="Media Ala Carte Logo" class="navbar__logo-image" />
+    <a href="#" class="navbar__logo" aria-label="Media Ala Carte Home" #logoRef>
+      <img src="assets/images/logo.png" alt="Media Ala Carte Logo" class="navbar__logo-image" 
+        loading="eager" width="160" height="40" />
     </a>
 
     <!-- Desktop Nav Links -->
-    <ul class="navbar__links" role="menubar">
+    <ul class="navbar__links" role="menubar" #linksRef>
       <li role="none"><a role="menuitem" href="#hero" class="navbar__link" [class.navbar__link--active]="activeLink() === 'platform'" (click)="setActiveLink('platform')">{{ 'NAV.PLATFORM' | translate }}</a></li>
       <li role="none"><a role="menuitem" href="#services" class="navbar__link" [class.navbar__link--active]="activeLink() === 'features'" (click)="setActiveLink('features')">{{ 'NAV.FEATURES' | translate }}</a></li>
       <li role="none"><a role="menuitem" href="#solutions" class="navbar__link" [class.navbar__link--active]="activeLink() === 'benefits'" (click)="setActiveLink('benefits')">{{ 'NAV.BENEFITS' | translate }}</a></li>
@@ -16,7 +17,7 @@
     </ul>
 
     <!-- Actions -->
-    <div class="navbar__actions">
+    <div class="navbar__actions" #actionsRef>
       <button class="navbar__lang-btn" (click)="toggleLang()" [attr.aria-label]="currentLang() === 'en' ? 'Switch to Arabic' : 'Switch to English'">
         {{ currentLang() === 'en' ? 'AR' : 'EN' }}
       </button>

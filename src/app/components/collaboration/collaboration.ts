@@ -6,6 +6,8 @@ import {
   PLATFORM_ID,
   ElementRef,
   viewChild,
+  viewChildren,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,11 +18,21 @@ import { AnimationService } from '../../services/animation.service';
   imports: [TranslateModule],
   templateUrl: './collaboration.html',
   styleUrl: './collaboration.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollaborationComponent implements AfterViewInit, OnDestroy {
   private platformId = inject(PLATFORM_ID);
   private anim = inject(AnimationService);
+
   sectionRef = viewChild<ElementRef>('sectionRef');
+  badgeRef = viewChild<ElementRef>('badgeRef');
+  titleRef = viewChild<ElementRef>('titleRef');
+  descRef = viewChild<ElementRef>('descRef');
+  ctaRef = viewChild<ElementRef>('ctaRef');
+  statsRef = viewChild<ElementRef>('statsRef');
+  statValueRefs = viewChildren<ElementRef>('statValueRef');
+  orbitRef = viewChild<ElementRef>('orbitRef');
+  ringRefs = viewChildren<ElementRef>('ringRef');
 
   /** All continuous tweens so we can kill them on destroy */
   private orbitTweens: gsap.core.Tween[] = [];
@@ -42,15 +54,20 @@ export class CollaborationComponent implements AfterViewInit, OnDestroy {
     const rm = this.anim.prefersReducedMotion();
 
     const el = this.sectionRef()?.nativeElement;
+    const badge = this.badgeRef()?.nativeElement;
+    const title = this.titleRef()?.nativeElement;
+    const desc = this.descRef()?.nativeElement;
+    const cta = this.ctaRef()?.nativeElement;
+    const stats = this.statsRef()?.nativeElement;
+
     if (!el) return;
 
     // ── Section header timeline ──────────────────────────────────
     const headerTl = gsap.timeline({
       scrollTrigger: { trigger: el, start: 'top 80%' },
-      defaults: { ease: 'power3.out' },
+      defaults: { ease: this.anim.EASES.DECELERATE },
     });
 
-    const badge = el.querySelector('.collab__badge');
     if (badge) {
       headerTl.fromTo(
         badge,
@@ -59,54 +76,55 @@ export class CollaborationComponent implements AfterViewInit, OnDestroy {
       );
     }
 
-    headerTl
-      .fromTo(
-        el.querySelector('.collab__title'),
+    if (title) {
+      headerTl.fromTo(
+        title,
         { opacity: 0, y: rm ? 0 : 30, filter: rm ? 'none' : 'blur(6px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: rm ? 0.01 : 0.8 },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: rm ? 0.01 : this.anim.DURATIONS.BASE },
         '-=0.2'
-      )
-      .fromTo(
-        el.querySelector('.collab__desc'),
+      );
+    }
+
+    if (desc) {
+      headerTl.fromTo(
+        desc,
         { opacity: 0, y: rm ? 0 : 20 },
         { opacity: 1, y: 0, duration: rm ? 0.01 : 0.6 },
         '-=0.4'
       );
+    }
 
-    const ctaBtn = el.querySelector('.collab__cta');
-    if (ctaBtn) {
+    if (cta) {
       headerTl.fromTo(
-        ctaBtn,
+        cta,
         { opacity: 0, y: rm ? 0 : 20 },
         { opacity: 1, y: 0, duration: rm ? 0.01 : 0.5, clearProps: 'transform' },
         '-=0.3'
       );
-      // Micro-interaction on the CTA button
       if (!rm) {
-        this.anim.addButtonHover(ctaBtn as HTMLElement, 1.04);
+        this.anim.addButtonHover(cta, 1.04);
       }
     }
 
     // ── Stats bar slide-up ───────────────────────────────────────
-    const statsBar = el.querySelector('.collab__stats');
-    if (statsBar) {
+    if (stats) {
       gsap.fromTo(
-        statsBar,
+        stats,
         { opacity: 0, y: rm ? 0 : 60, scale: rm ? 1 : 0.97 },
         {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: rm ? 0.01 : 0.9,
-          ease: 'power2.out',
-          scrollTrigger: { trigger: statsBar, start: 'top 90%' },
+          duration: rm ? 0.01 : this.anim.DURATIONS.ENTRANCE,
+          ease: this.anim.EASES.SMOOTH,
+          scrollTrigger: { trigger: stats, start: 'top 90%' },
         }
       );
     }
 
-    // ── Counter animation — parse target from initial textContent ─
-    const statValues = el.querySelectorAll('.collab__stat-value');
-    statValues.forEach((stat: HTMLElement) => {
+    // ── Counter animation ────────────────────────────────────────
+    this.statValueRefs().forEach((statRef) => {
+      const stat = statRef.nativeElement;
       const text = stat.textContent?.trim() || '';
       const numericMatch = text.match(/[\d.]+/);
       if (!numericMatch) return;
@@ -122,53 +140,40 @@ export class CollaborationComponent implements AfterViewInit, OnDestroy {
     });
 
     // ── Avatar nodes scale-in ────────────────────────────────────
-    const avatars = el.querySelectorAll('.collab__node');
-    if (avatars.length) {
+    const orbit = this.orbitRef()?.nativeElement;
+    const nodes = orbit?.querySelectorAll('.collab__node');
+    if (nodes?.length) {
       gsap.fromTo(
-        avatars,
+        nodes,
         { opacity: 0, scale: rm ? 1 : 0 },
         {
           opacity: 1,
           scale: 1,
           stagger: rm ? 0 : { each: 0.08, from: 'center' },
           duration: rm ? 0.01 : 0.5,
-          ease: rm ? 'none' : 'back.out(2)',
+          ease: rm ? 'none' : this.anim.EASES.BOUNCE,
           scrollTrigger: {
-            trigger: el.querySelector('.collab__orbit'),
+            trigger: orbit,
             start: 'top 85%',
           },
           onComplete: () => {
-            // Start orbit animations AFTER nodes are visible
-            if (!rm) this.startOrbitAnimations(el, gsap);
+            if (!rm) this.startOrbitAnimations(gsap);
           },
         }
       );
     } else if (!rm) {
-      // No avatars found, start orbits directly
-      this.startOrbitAnimations(el, gsap);
+      this.startOrbitAnimations(gsap);
     }
   }
 
-  /**
-   * Continuous orbit animations — called after avatar scale-in completes.
-   *
-   * Strategy:
-   *  - Each ring rotates at a different speed (inner fastest, outer slowest)
-   *  - Ring 1 → CW (30s), Ring 2 → CCW (45s), Ring 3 → CW (60s)
-   *  - Each node counter-rotates at the same speed as its parent ring
-   *    so avatars remain upright while the ring turns beneath them
-   *  - Avatar nodes get a gentle y float for organic feel
-   */
-  private startOrbitAnimations(el: HTMLElement, gsap: typeof import('gsap').gsap): void {
-    const rings = [
-      { selector: '.collab__ring--1', duration: 30,  direction: 1  },
-      { selector: '.collab__ring--2', duration: 45,  direction: -1 },
-      { selector: '.collab__ring--3', duration: 60,  direction: 1  },
-    ];
+  private startOrbitAnimations(gsap: typeof import('gsap').gsap): void {
+    const ringDurations = [30, 45, 60];
+    const ringDirections = [1, -1, 1];
 
-    rings.forEach(({ selector, duration, direction }) => {
-      const ring = el.querySelector(selector) as HTMLElement | null;
-      if (!ring) return;
+    this.ringRefs().forEach((ringRef, i) => {
+      const ring = ringRef.nativeElement;
+      const duration = ringDurations[i] || 30;
+      const direction = ringDirections[i] || 1;
 
       // Ring rotation
       const ringTween = gsap.to(ring, {
@@ -180,7 +185,7 @@ export class CollaborationComponent implements AfterViewInit, OnDestroy {
       });
       this.orbitTweens.push(ringTween);
 
-      // Counter-rotate each node so avatars stay upright
+      // Counter-rotate each node
       const nodes = ring.querySelectorAll('.collab__node');
       nodes.forEach((node: Element) => {
         const nodeTween = gsap.to(node, {
@@ -194,10 +199,10 @@ export class CollaborationComponent implements AfterViewInit, OnDestroy {
       });
     });
 
-    // ── Gentle float on avatar nodes (y bob) ─────────────────────
-    // Stagger offset so they don't all move together
-    const avatarNodes = el.querySelectorAll('.collab__node--avatar');
-    avatarNodes.forEach((node: Element, i: number) => {
+    // Gentle float on avatar nodes
+    const orbit = this.orbitRef()?.nativeElement;
+    const avatarNodes = orbit?.querySelectorAll('.collab__node--avatar');
+    avatarNodes?.forEach((node: Element, i: number) => {
       const floatTween = gsap.to(node, {
         y: i % 2 === 0 ? -7 : 7,
         duration: 2.5 + (i * 0.4),
@@ -209,9 +214,9 @@ export class CollaborationComponent implements AfterViewInit, OnDestroy {
       this.orbitTweens.push(floatTween);
     });
 
-    // ── Dot nodes pulse opacity ───────────────────────────────────
-    const dotNodes = el.querySelectorAll('.collab__node--dot');
-    dotNodes.forEach((dot: Element, i: number) => {
+    // Dot nodes pulse opacity
+    const dotNodes = orbit?.querySelectorAll('.collab__node--dot');
+    dotNodes?.forEach((dot: Element, i: number) => {
       const dotTween = gsap.to(dot, {
         opacity: 0.3,
         scale: 0.6,
@@ -225,3 +230,4 @@ export class CollaborationComponent implements AfterViewInit, OnDestroy {
     });
   }
 }
+

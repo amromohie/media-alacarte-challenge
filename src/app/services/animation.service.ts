@@ -22,6 +22,24 @@ export class AnimationService {
   gsap!: typeof import('gsap').gsap;
   ScrollTrigger!: typeof import('gsap/ScrollTrigger').ScrollTrigger;
 
+  /** Animation Tokens for System Consistency */
+  readonly DURATIONS = {
+    QUICK: 0.25,
+    BASE: 0.7,
+    ENTRANCE: 0.8,
+    SLOW: 1.2,
+    COUNTER: 2.2
+  };
+
+  readonly EASES = {
+    SMOOTH: 'power2.out',
+    DECELERATE: 'power3.out',
+    ENTRANCE: 'power4.out',
+    EXPO: 'expo.out',
+    POP: 'back.out(1.4)',
+    BOUNCE: 'back.out(2)'
+  };
+
   private _ready: Promise<void> | null = null;
 
   /**
@@ -47,7 +65,10 @@ export class AnimationService {
       gsap.registerPlugin(ScrollTrigger);
 
       // Global GSAP defaults — subtle, premium pacing
-      gsap.defaults({ ease: 'power2.out', duration: 0.7 });
+      gsap.defaults({ 
+        ease: this.EASES.SMOOTH, 
+        duration: this.DURATIONS.BASE 
+      });
 
       this.gsap = gsap;
       this.ScrollTrigger = ScrollTrigger;
@@ -89,9 +110,9 @@ export class AnimationService {
         opacity: 1,
         y: 0,
         filter: 'blur(0px)',
-        duration: rm ? 0.01 : (opts.duration ?? 0.7),
+        duration: rm ? 0.01 : (opts.duration ?? this.DURATIONS.BASE),
         delay: opts.delay ?? 0,
-        ease: opts.ease ?? 'power2.out',
+        ease: opts.ease ?? this.EASES.SMOOTH,
         clearProps: opts.clearProps ?? '',
       }
     );
@@ -120,9 +141,9 @@ export class AnimationService {
         opacity: 1,
         y: 0,
         scale: 1,
-        duration: rm ? 0.01 : (opts.duration ?? 0.75),
+        duration: rm ? 0.01 : (opts.duration ?? this.DURATIONS.BASE),
         stagger: rm ? 0 : (opts.stagger ?? 0.12),
-        ease: opts.ease ?? 'power2.out',
+        ease: opts.ease ?? this.EASES.SMOOTH,
         clearProps: opts.clearProps ?? 'transform,opacity,filter',
       }
     );
@@ -156,8 +177,8 @@ export class AnimationService {
 
     return this.gsap.to(obj, {
       val: target,
-      duration: 2.2,
-      ease: 'power2.out',
+      duration: this.DURATIONS.COUNTER,
+      ease: this.EASES.SMOOTH,
       snap: hasDecimal ? { val: 0.01 } : { val: 1 },
       scrollTrigger: scrollTriggerConfig,
       onUpdate: () => {
@@ -189,7 +210,7 @@ export class AnimationService {
         rotateY: dx,
         rotateX: -dy,
         duration: 0.35,
-        ease: 'power2.out',
+        ease: this.EASES.SMOOTH,
         overwrite: 'auto',
       });
     });
@@ -199,7 +220,7 @@ export class AnimationService {
         rotateY: 0,
         rotateX: 0,
         duration: 0.5,
-        ease: 'power3.out',
+        ease: this.EASES.DECELERATE,
         overwrite: 'auto',
       });
     });
@@ -231,16 +252,16 @@ export class AnimationService {
     const gsap = this.gsap;
 
     btn.addEventListener('mouseenter', () => {
-      gsap.to(btn, { scale: scaleTo, duration: 0.25, ease: 'power2.out', overwrite: 'auto' });
+      gsap.to(btn, { scale: scaleTo, duration: this.DURATIONS.QUICK, ease: this.EASES.SMOOTH, overwrite: 'auto' });
     });
     btn.addEventListener('mouseleave', () => {
-      gsap.to(btn, { scale: 1, duration: 0.35, ease: 'power3.out', overwrite: 'auto' });
+      gsap.to(btn, { scale: 1, duration: 0.35, ease: this.EASES.DECELERATE, overwrite: 'auto' });
     });
     btn.addEventListener('mousedown', () => {
       gsap.to(btn, { scale: scaleTo * 0.97, duration: 0.1, ease: 'power2.in', overwrite: 'auto' });
     });
     btn.addEventListener('mouseup', () => {
-      gsap.to(btn, { scale: scaleTo, duration: 0.2, ease: 'power2.out', overwrite: 'auto' });
+      gsap.to(btn, { scale: scaleTo, duration: 0.2, ease: this.EASES.SMOOTH, overwrite: 'auto' });
     });
   }
 

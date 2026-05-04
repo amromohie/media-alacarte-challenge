@@ -1,7 +1,7 @@
 <section class="services section" id="services" aria-labelledby="services-heading" #sectionRef>
   <div class="container">
     <!-- Section icon -->
-    <div class="services__icon" aria-hidden="true">
+    <div class="services__icon" aria-hidden="true" #iconRef>
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round">
         <!-- Main cross arms -->
@@ -21,16 +21,17 @@
       </svg>
     </div>
 
-    <h2 class="services__title text-gradient-primary" id="services-heading">{{ 'SERVICES.TITLE' | translate }}</h2>
+    <h2 class="services__title text-gradient-primary" id="services-heading" #titleRef>{{ 'SERVICES.TITLE' | translate }}</h2>
 
     <!-- Decorative Glow -->
     <div class="services__glow glow-orb glow-orb--cyan" aria-hidden="true" style="top: 20%; left: -10%; opacity: 0.5;"></div>
 
     <div class="services__grid">
       <!-- Advertisers -->
-      <article class="services__card services__card--main" aria-labelledby="service-advertisers">
+      <article class="services__card services__card--main" aria-labelledby="service-advertisers" #cardRef>
         <img src="assets/images/advertisers.png" alt="Advertisers"
-          class="services__card-image services__card-image--advertisers">
+          class="services__card-image services__card-image--advertisers"
+          loading="lazy" width="600" height="520">
         <div class="services__card-overlay">
           <div class="services__card-bottom-row">
             <div class="services__card-text-content">
@@ -50,9 +51,10 @@
       </article>
 
       <!-- Agencies -->
-      <article class="services__card services__card--tall" aria-labelledby="service-agencies">
+      <article class="services__card services__card--tall" aria-labelledby="service-agencies" #cardRef>
         <img src="assets/images/agencies.png" alt="Agencies"
-          class="services__card-image services__card-image--agencies">
+          class="services__card-image services__card-image--agencies"
+          loading="lazy" width="300" height="520">
         <div class="services__card-overlay">
           <div class="services__card-bottom-row">
             <div class="services__card-text-content">
@@ -74,9 +76,10 @@
       </article>
 
       <!-- Media Owners -->
-      <article class="services__card services__card--tall" aria-labelledby="service-media-owners">
+      <article class="services__card services__card--tall" aria-labelledby="service-media-owners" #cardRef>
         <img src="assets/images/media-owners.png" alt="Media Owners"
-          class="services__card-image services__card-image--media-owners">
+          class="services__card-image services__card-image--media-owners"
+          loading="lazy" width="300" height="520">
         <div class="services__card-overlay">
           <div class="services__card-bottom-row">
             <div class="services__card-text-content">
