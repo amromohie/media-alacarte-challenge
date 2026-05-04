@@ -68,6 +68,51 @@ body {
   overflow-x: hidden;
 }
 
+/* ============================================
+   Typography (Modern SaaS Style)
+   ============================================ */
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  /* Modern tight tracking ("cut") */
+  letter-spacing: -0.02em; 
+  margin-block-end: 1rem;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  letter-spacing: -0.015em;
+}
+
+h4 {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin-block-end: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-body);
+}
+
+p:last-child {
+  margin-block-end: 0;
+}
+
 img {
   max-width: 100%;
   height: auto;

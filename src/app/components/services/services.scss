@@ -35,11 +35,7 @@
 
 /* ── Section title ── */
 .services__title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  color: #ffffff;
   margin-block-end: 3.5rem;
-  letter-spacing: -0.02em;
 }
 
 /* ── Card Grid ── */
@@ -123,13 +119,14 @@
   align-items: center; /* Vertically center the arrow with the text block */
   justify-content: space-between;
   width: 100%;
+  gap: 1.5rem;
 }
 
 .services__card-text-content {
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding-right: 1.5rem;
+  min-width: 0; /* Prevents flex children from overflowing */
   text-align: start;
 }
 
@@ -153,10 +150,9 @@
 /* ── Card text ── */
 .services__card-title {
   font-size: 1.25rem;
-  font-weight: 700;
-  color: #ffffff;
   margin-block-end: 0.4rem;
-  line-height: 1.2;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .services__card-desc {

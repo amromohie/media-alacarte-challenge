@@ -32,16 +32,14 @@
 }
 
 .solutions__title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 700;
-  color: #FFFFFF;
-  line-height: 1.3;
+  /* Inherits modern global h2 typography */
 }
 
 .solutions__highlight {
   display: inline-block;
   background: #FF2A5F;
   color: #000000;
+  -webkit-text-fill-color: #000000; /* Overrides the transparent fill from text-gradient-primary */
   padding: 0.1rem 0.6rem;
   border-radius: 6px;
   margin-inline: 0.25rem;
@@ -156,9 +154,6 @@
 }
 
 .solutions__card-title {
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: #ffffff;
   margin-block-end: 0.5rem;
 }
 

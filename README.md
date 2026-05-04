@@ -15,7 +15,7 @@ This project implements a modern, dark-themed SaaS aesthetic. The focus was on d
 ## 🏗️ Technical Architecture
 Industry best practices were strictly followed to ensure clean, maintainable, and scalable code:
 
-- **Angular 19+ Best Practices:** Utilized `ChangeDetectionStrategy.OnPush` across presentation components to optimize rendering cycles. Code is strictly typed and heavily documented using JSDoc.
+- **Angular 21+ Best Practices:** Utilized `ChangeDetectionStrategy.OnPush` across presentation components to optimize rendering cycles. Code is strictly typed and heavily documented using JSDoc.
 - **Memory Management:** Robust cleanup of GSAP tweens, `ScrollTrigger` instances, and `ResizeObserver`s within `ngOnDestroy` lifecycle hooks to prevent memory leaks.
 - **SCSS Token System:** Styled using an ITCSS-inspired global architecture (`src/styles`). Design tokens (colors, fonts, breakpoints) are centralized in CSS variables for effortless theming and consistency.
 - **Accessibility (a11y):** Semantic HTML5 structures, proper `aria-labels`, descriptive `alt` tags, and full respect for the user's `prefers-reduced-motion` OS settings via a centralized `AnimationService`.
