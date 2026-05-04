@@ -134,7 +134,11 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
     // ── Choreographed entrance timeline ──────────────────────────
     // CSS starts elements at opacity:0 (FOUC prevention in hero.scss)
-    const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    // Delay added to orchestrate with the Navbar slide-down sequence
+    const tl = gsap.timeline({ 
+      delay: 0.5,
+      defaults: { ease: 'power4.out' } 
+    });
 
     tl.fromTo(el.querySelector('.hero__badge'),
       { opacity: 0, y: rm ? 0 : 30, scale: rm ? 1 : 0.95 },

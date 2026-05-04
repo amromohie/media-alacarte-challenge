@@ -57,8 +57,20 @@ export class ServicesComponent implements AfterViewInit {
     if (rm) return; // skip GSAP hover in reduced-motion mode
 
     // 3D tilt on ALL cards — max 6° so it stays subtle
+    const gsap = this.anim.gsap;
     el.querySelectorAll('.services__card').forEach((card: HTMLElement) => {
       this.anim.addTiltHover(card, 6);
+
+      // Arrow nudge on hover
+      const arrow = card.querySelector('.services__card-arrow') as HTMLElement | null;
+      if (arrow) {
+        card.addEventListener('mouseenter', () => {
+          gsap.to(arrow, { x: 4, y: -4, duration: 0.25, ease: 'power2.out', overwrite: 'auto' });
+        });
+        card.addEventListener('mouseleave', () => {
+          gsap.to(arrow, { x: 0, y: 0, duration: 0.35, ease: 'power3.out', overwrite: 'auto' });
+        });
+      }
     });
   }
 
