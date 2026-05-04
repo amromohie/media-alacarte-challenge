@@ -10,9 +10,19 @@
   <div class="container hero__container">
     <!-- ─── Text Content ─── -->
     <div class="hero__content">
-      <span class="hero__badge badge-primary" #badge>{{ 'HERO.BADGE' | translate }}</span>
+      <div class="hero__badge-wrapper" #badge>
+        <span class="hero__badge badge-primary">{{ 'HERO.BADGE' | translate }}</span>
+      </div>
+      
       <p class="hero__subtitle" #subtitle>{{ 'HERO.SUBTITLE' | translate }}</p>
-      <h1 class="hero__title text-gradient-primary" #title>{{ 'HERO.TITLE' | translate }}</h1>
+      
+      <h1 class="hero__title" #title>
+        <span class="text-gradient-primary">{{ 'HERO.TITLE_HIGHLIGHT_1' | translate }}</span> 
+        {{ 'HERO.TITLE_PART_1' | translate }}
+        <span class="text-highlight">{{ 'HERO.TITLE_HIGHLIGHT_2' | translate }}</span>
+        {{ 'HERO.TITLE_PART_2' | translate }}
+      </h1>
+      
       <p class="hero__desc" #description>{{ 'HERO.DESCRIPTION' | translate }}</p>
 
       <div class="hero__actions" #actionsRef>
@@ -30,64 +40,74 @@
       </div>
     </div>
 
-    <!-- ─── Modern Visual (No Image) ─── -->
+    <!-- ─── Media Command Center (Orchestration Visual) ─── -->
     <div class="hero__visual" #visualContainer>
-      <!-- Floating Glass Cards representing platform features -->
-      <div class="hero__card hero__card--1" #featureCard>
-        <div class="hero__card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2v20M2 12h20" />
+      
+      <!-- Central AI Core -->
+      <div class="hero__core" #coreRef>
+        <div class="hero__core-inner">
+          <div class="hero__core-glow"></div>
+          <svg viewBox="0 0 100 100" class="hero__core-icon">
+            <path d="M50 10 L90 50 L50 90 L10 50 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="50" cy="50" r="15" fill="var(--accent-cyan)"/>
           </svg>
         </div>
-        <div class="hero__card-content">
-          <span class="hero__card-label">Automated Bidding</span>
-          <span class="hero__card-value">+24% ROI</span>
-        </div>
+        <span class="hero__core-label">AI ENGINE</span>
       </div>
 
-      <div class="hero__card hero__card--2" #featureCard>
-        <div class="hero__card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 6v6l4 2" />
-          </svg>
-        </div>
-        <div class="hero__card-content">
-          <span class="hero__card-label">Real-time Analytics</span>
-          <span class="hero__card-value">Live Data</span>
-        </div>
+      <!-- Network Connections (SVG Paths) -->
+      <svg class="hero__network" viewBox="0 0 600 600" fill="none" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="path-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:var(--accent-cyan);stop-opacity:0.2" />
+            <stop offset="100%" style="stop-color:var(--accent-pink);stop-opacity:0.2" />
+          </linearGradient>
+        </defs>
+        
+        <!-- Lines from core to nodes -->
+        <path class="hero__path hero__path--1" d="M300 300 L100 150" #pathNode />
+        <path class="hero__path hero__path--2" d="M300 300 L500 180" #pathNode />
+        <path class="hero__path hero__path--3" d="M300 300 L120 480" #pathNode />
+        <path class="hero__path hero__path--4" d="M300 300 L520 450" #pathNode />
+        
+        <!-- Moving Data Packets (Circles that animate along paths) -->
+        <circle class="hero__packet" r="4" fill="var(--accent-cyan)" #packet />
+        <circle class="hero__packet" r="4" fill="var(--accent-pink)" #packet />
+        <circle class="hero__packet" r="4" fill="var(--accent-cyan)" #packet />
+        <circle class="hero__packet" r="4" fill="var(--accent-pink)" #packet />
+      </svg>
+
+      <!-- Media Nodes (Status Cards) -->
+      <div class="hero__node hero__node--tv" #mediaNode>
+        <div class="hero__node-icon">TV</div>
+        <div class="hero__node-status">Live</div>
       </div>
 
-      <div class="hero__card hero__card--3" #featureCard>
-        <div class="hero__card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-          </svg>
-        </div>
-        <div class="hero__card-content">
-          <span class="hero__card-label">Global Network</span>
-          <span class="hero__card-value">1.2M Reach</span>
-        </div>
+      <div class="hero__node hero__node--digital" #mediaNode>
+        <div class="hero__node-icon">Digital</div>
+        <div class="hero__node-status">Active</div>
       </div>
 
-      <!-- Central Abstract Shape -->
-      <div class="hero__abstract-shape" #abstractShape>
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="shape-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:var(--accent-cyan);stop-opacity:0.2" />
-              <stop offset="100%" style="stop-color:var(--accent-pink);stop-opacity:0.2" />
-            </linearGradient>
-          </defs>
-          <path fill="url(#shape-grad)" d="M44.7,-76.4C58.3,-69.2,70.1,-58.5,78.5,-45.6C86.9,-32.7,91.9,-17.7,91.3,-2.8C90.7,12.1,84.5,26.9,76,39.8C67.5,52.7,56.7,63.7,43.7,71.5C30.7,79.3,15.4,83.9,0.2,83.5C-14.9,83.1,-29.8,77.8,-43,70.2C-56.1,62.6,-67.4,52.8,-75.6,40.5C-83.8,28.2,-88.8,13.4,-89.1,-1.5C-89.4,-16.4,-85,-31.4,-76.6,-44.1C-68.2,-56.8,-55.8,-67.2,-42.1,-74.3C-28.4,-81.4,-14.2,-85.2,0.3,-85.7C14.8,-86.2,29.6,-83.5,44.7,-76.4Z" transform="translate(100 100)" />
-        </svg>
+      <div class="hero__node hero__node--outdoor" #mediaNode>
+        <div class="hero__node-icon">Outdoor</div>
+        <div class="hero__node-status">Booked</div>
       </div>
+
+      <div class="hero__node hero__node--radio" #mediaNode>
+        <div class="hero__node-icon">Radio</div>
+        <div class="hero__node-status">Queued</div>
+      </div>
+
+      <!-- Live Metric Bubbles -->
+      <div class="hero__metric hero__metric--1" #metricBubble>
+        <span class="hero__metric-val">+22%</span>
+        <span class="hero__metric-label">ROI</span>
+      </div>
+      <div class="hero__metric hero__metric--2" #metricBubble>
+        <span class="hero__metric-val">1.2M</span>
+        <span class="hero__metric-label">Reach</span>
+      </div>
+
     </div>
-  </div>
-</section>
-</div>
   </div>
 </section>

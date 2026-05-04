@@ -2,27 +2,25 @@ import {
   Component,
   inject,
   AfterViewInit,
-  OnDestroy,
   PLATFORM_ID,
   ElementRef,
   viewChild,
+  viewChildren,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { AnimationService } from '../../services/animation.service';
-import { PillMaskDirective } from '../../directives/pill-mask.directive';
 
 /**
  * HeroComponent
  * 
- * Renders the main landing hero section.
- * Entrance animations are choreographed via AnimationService tokens.
- * Geometric SVG masking is handled by the PillMaskDirective.
+ * Renders the modern typography-driven landing hero section.
+ * Features floating glassmorphic cards and dynamic background animations.
  */
 @Component({
   selector: 'app-hero',
-  imports: [TranslateModule, PillMaskDirective],
+  imports: [TranslateModule],
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,38 +29,25 @@ export class HeroComponent implements AfterViewInit {
   private platformId = inject(PLATFORM_ID);
   private anim = inject(AnimationService);
   
-  heroSection = viewChild<ElementRef>('heroSection');
   badge = viewChild<ElementRef>('badge');
   subtitle = viewChild<ElementRef>('subtitle');
   title = viewChild<ElementRef>('title');
   description = viewChild<ElementRef>('description');
-  heroImage = viewChild<ElementRef>('heroImage');
-  imgGroup = viewChild<ElementRef>('imgGroup');
-  imageWrapper = viewChild<ElementRef>('imageWrapper');
-  ctaBtn = viewChild<ElementRef>('ctaBtn');
-  learnMoreBtn = viewChild<ElementRef>('learnMoreBtn');
+  actionsRef = viewChild<ElementRef>('actionsRef');
+  visualContainer = viewChild<ElementRef>('visualContainer');
+  coreRef = viewChild<ElementRef>('coreRef');
+  mediaNodes = viewChildren<ElementRef>('mediaNode');
+  metricBubbles = viewChildren<ElementRef>('metricBubble');
+  packets = viewChildren<ElementRef>('packet');
+  paths = viewChildren<ElementRef>('pathNode');
   glowCyan = viewChild<ElementRef>('glowCyan');
   glowPurple = viewChild<ElementRef>('glowPurple');
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      // Defer animations slightly to prioritize initial paint and LCP
       setTimeout(() => {
         this.initAnimations();
-        this.applySvgAttributes();
       }, 50);
-    }
-  }
-
-  /**
-   * Angular strips SVG presentation attributes like `mask` during sanitization.
-   * We must apply them imperatively via setAttribute AFTER the view renders.
-   */
-  private applySvgAttributes(): void {
-    const imgGroup = this.imgGroup()?.nativeElement;
-    if (imgGroup) {
-      imgGroup.setAttribute('mask', 'url(#hero-img-mask)');
-      imgGroup.setAttribute('clip-path', 'url(#hero-outer-clip)');
     }
   }
 
@@ -71,103 +56,163 @@ export class HeroComponent implements AfterViewInit {
     const gsap = this.anim.gsap;
     const rm = this.anim.prefersReducedMotion();
 
-    const el = this.heroSection()?.nativeElement;
-
     const els = {
       badge: this.badge()?.nativeElement,
       subtitle: this.subtitle()?.nativeElement,
       title: this.title()?.nativeElement,
       description: this.description()?.nativeElement,
-      image: this.heroImage()?.nativeElement,
-      cta: this.ctaBtn()?.nativeElement,
-      learnMore: this.learnMoreBtn()?.nativeElement,
+      actions: this.actionsRef()?.nativeElement,
+      visual: this.visualContainer()?.nativeElement,
+      core: this.coreRef()?.nativeElement,
+      nodes: this.mediaNodes().map((n: ElementRef) => n.nativeElement),
+      metrics: this.metricBubbles().map((m: ElementRef) => m.nativeElement),
+      packets: this.packets().map((p: ElementRef) => p.nativeElement),
+      paths: this.paths().map((p: ElementRef) => p.nativeElement),
       glowCyan: this.glowCyan()?.nativeElement,
       glowPurple: this.glowPurple()?.nativeElement,
     };
 
     if (!els.badge) return;
 
-    // ── Choreographed entrance timeline ──────────────────────────
-    // CSS starts elements at opacity:0 (FOUC prevention in hero.scss)
-    // Delay added to orchestrate with the Navbar slide-down sequence
+    // ── Entrance Timeline ──────────────────────────────────────
     const tl = gsap.timeline({ 
-      delay: 0.5,
-      defaults: { ease: this.anim.EASES.ENTRANCE } 
+      delay: 0.1,
+      defaults: { ease: "expo.out" } 
     });
 
+    // 1. Badge Reveal (Slide + Fade)
     tl.fromTo(els.badge,
-      { opacity: 0, y: rm ? 0 : 30, scale: rm ? 1 : 0.95 },
-      { opacity: 1, y: 0, scale: 1, duration: rm ? 0.01 : this.anim.DURATIONS.ENTRANCE }
+      { opacity: 0, y: rm ? 0 : 40, filter: 'blur(10px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 }
     )
-      .fromTo(els.subtitle,
-        { opacity: 0, y: rm ? 0 : 20, filter: rm ? 'none' : 'blur(8px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: rm ? 0.01 : this.anim.DURATIONS.ENTRANCE },
-        '-=0.6'
-      )
-      .fromTo(els.title,
-        { opacity: 0, y: rm ? 0 : 40, filter: rm ? 'none' : 'blur(12px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: rm ? 0.01 : this.anim.DURATIONS.SLOW },
-        '-=0.6'
-      )
-      .fromTo(els.description,
-        { opacity: 0, y: rm ? 0 : 20, filter: rm ? 'none' : 'blur(8px)' },
-        { opacity: 1, y: 0, filter: 'blur(0px)', duration: rm ? 0.01 : 1 },
-        '-=0.9'
-      )
-      .fromTo(els.image,
-        { opacity: 0, y: rm ? 0 : 80, scale: rm ? 1 : 0.98 },
-        { opacity: 1, y: 0, scale: 1, duration: rm ? 0.01 : 1.4, ease: this.anim.EASES.DECELERATE },
-        '-=0.7'
-      )
-      .fromTo(els.cta,
-        { opacity: 0, x: rm ? 0 : -40, scale: rm ? 1 : 0.95 },
-        { opacity: 1, x: 0, scale: 1, duration: rm ? 0.01 : this.anim.DURATIONS.ENTRANCE, ease: this.anim.EASES.POP, clearProps: 'transform' },
-        '-=0.9'
-      )
-      .fromTo(els.learnMore,
-        { opacity: 0, x: rm ? 0 : 40, scale: rm ? 1 : 0.95 },
-        { opacity: 1, x: 0, scale: 1, duration: rm ? 0.01 : this.anim.DURATIONS.ENTRANCE, ease: this.anim.EASES.POP, clearProps: 'transform' },
-        '-=0.7'
-      );
+    // 2. Subtitle (Staggered tracking + fade)
+    .fromTo(els.subtitle,
+      { opacity: 0, letterSpacing: '1em', y: 10 },
+      { opacity: 1, letterSpacing: '0.6em', y: 0, duration: 1.5 },
+      '-=1'
+    )
+    // 3. Title (Skew + Scale + Blur reveal)
+    .fromTo(els.title,
+      { opacity: 0, y: 50, skewY: 7, scale: 0.9, filter: 'blur(15px)' },
+      { opacity: 1, y: 0, skewY: 0, scale: 1, filter: 'blur(0px)', duration: 1.8, ease: "power4.out" },
+      '-=1.2'
+    )
+    // 4. Description (Soft fade up)
+    .fromTo(els.description,
+      { opacity: 0, y: 20, filter: 'blur(5px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 },
+      '-=1.4'
+    )
+    // 5. Actions (Bounce in)
+    .fromTo(els.actions,
+      { opacity: 0, y: 30, scale: 0.95 },
+      { opacity: 1, y: 0, scale: 1, duration: 1, ease: "back.out(1.7)" },
+      '-=1'
+    )
+    // 6. Visual Core (Deep blur reveal)
+    .fromTo(els.core,
+      { opacity: 0, scale: 0.4, filter: 'blur(30px)', rotate: -15 },
+      { opacity: 1, scale: 1, filter: 'blur(0px)', rotate: 0, duration: 1.5, ease: "elastic.out(1, 0.75)" },
+      '-=1.5'
+    )
+    // 7. Network Paths (Drawing effect)
+    .fromTo(els.paths,
+      { strokeDasharray: 1000, strokeDashoffset: 1000, opacity: 0 },
+      { strokeDashoffset: 0, opacity: 1, duration: 2, ease: "power3.inOut" },
+      '-=1.2'
+    )
+    // 8. Nodes (Pop in)
+    .fromTo(els.nodes,
+      { opacity: 0, scale: 0.5, y: 40, filter: 'blur(10px)' },
+      { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)', duration: 1, stagger: 0.1, ease: "back.out(1.5)" },
+      '-=1.5'
+    )
+    // 9. Metrics (Elastic reveal)
+    .fromTo(els.metrics,
+      { opacity: 0, scale: 0, rotate: 10 },
+      { opacity: 1, scale: 1, rotate: 0, duration: 0.8, stagger: 0.2, ease: "back.out(2)" },
+      '-=0.8'
+    );
 
-    // ── Button micro-interactions (after entrance completes) ──────
+    // ── Subtle Floating Animation for Title & Core ──────────────────
     if (!rm) {
-      tl.add(() => {
-        if (els.cta) this.anim.addButtonHover(els.cta, 1.05);
-        if (els.learnMore) this.anim.addButtonHover(els.learnMore, 1.04);
+      gsap.to(els.title, {
+        y: 10,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+
+      gsap.to(els.core, {
+        y: -15,
+        duration: 5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: 0.5
       });
     }
 
-    // ── Continuous floating animation for background glows ────────
     if (!rm) {
-      if (els.glowCyan) {
-        gsap.to(els.glowCyan, {
-          y: -30, x: 20, rotation: -10,
-          duration: 8, repeat: -1, yoyo: true, ease: 'sine.inOut',
-        });
-      }
+      // ── Continuous Data Packets Animation ──────────────────────
+      els.packets.forEach((packet: HTMLElement, i: number) => {
+        const path = els.paths[i % els.paths.length] as SVGPathElement;
+        const length = path.getTotalLength();
+        
+        gsap.fromTo(packet, 
+          { x: 0, y: 0, opacity: 0 },
+          {
+            duration: 2 + Math.random() * 2,
+            repeat: -1,
+            ease: "none",
+            delay: i * 0.8,
+            onUpdate: function(this: any) {
+              const progress = this['progress']();
+              const p = path.getPointAtLength(progress * length);
+              gsap.set(packet, { 
+                attr: { cx: p.x, cy: p.y }, 
+                opacity: progress < 0.1 ? progress * 10 : (progress > 0.9 ? (1 - progress) * 10 : 1) 
+              });
+            }
+          }
+        );
+      });
 
-      if (els.glowPurple) {
-        gsap.to(els.glowPurple, {
-          y: 40, x: -20, rotation: 20,
-          duration: 10, repeat: -1, yoyo: true, ease: 'sine.inOut',
-        });
-      }
+      // ── AI Core Pulse ──────────────────────────────────────────
+      gsap.to(els.core, {
+        scale: 1.05,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
 
-      // ── Subtle parallax float on scroll ────────────────────────
-      const imageWrapper = this.imageWrapper()?.nativeElement;
-      if (imageWrapper) {
-        gsap.to(imageWrapper, {
-          y: -30,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1.5,
-          },
+      // ── Media Nodes Float ──────────────────────────────────────
+      els.nodes.forEach((node: HTMLElement, i: number) => {
+        gsap.to(node, {
+          y: '+=15',
+          duration: 3 + i,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: i * 0.4
         });
-      }
+      });
+
+      // ── Background Glows ──────────────────────────────────────
+      [els.glowCyan, els.glowPurple].forEach((glow: HTMLElement | undefined, i: number) => {
+        if (glow) {
+          gsap.to(glow, {
+            x: i === 0 ? 40 : -40,
+            y: i === 0 ? -20 : 20,
+            duration: 12,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut'
+          });
+        }
+      });
     }
   }
 }

@@ -20,24 +20,6 @@
   gap: 0; /* Tightly stacked so they overlap/cross */
 }
 
-.marquee-bg {
-  position: absolute;
-  inset: -100px; /* Bleed out slightly */
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.4; /* Subtle background presence */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  contain: strict; // Optimization: Fixed size and content
-}
-
-.marquee-bg__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: blur(8px) brightness(0.6); /* Creates the moody dark glow effect */
-}
 
 .marquee {
   width: 100%;

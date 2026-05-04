@@ -9,55 +9,69 @@
     "LOGIN": "Login"
   },
   "HERO": {
-    "BADGE": "#1 MEDIA MARKETPLACE FOR ADVERTISERS & AGENCIES",
-    "SUBTITLE": "Bigger Impact",
-    "TITLE": "Stronger Campaigns",
-    "DESCRIPTION": "Smarter Media Buying",
-    "CTA": "Start your journey!",
-    "LEARN_MORE": "Learn More"
+    "BADGE": "AI-DRIVEN MEDIA MARKETPLACE",
+    "SUBTITLE": "Plan • Execute • Optimize",
+    "TITLE_HIGHLIGHT_1": "AI-Powered",
+    "TITLE_PART_1": " Media Planning for ",
+    "TITLE_HIGHLIGHT_2": "Faster Campaign",
+    "TITLE_PART_2": " Launches",
+    "DESCRIPTION": "Plan, book, and optimize TV, Digital, Radio, and Outdoor campaigns from a single intelligent platform. Empowering Advertisers, Agencies, and Media Owners.",
+    "CTA": "Request a Demo",
+    "LEARN_MORE": "How it Works"
   },
   "MARQUEE": {
     "LINE1": "We simplify media buying with data, automation, and collaboration to maximize ROI.",
     "LINE2": "Coming soon: Smarter media solutions for agencies and media owners, driving innovation, and measurable impact."
   },
   "SERVICES": {
-    "TITLE": "Our Services",
+    "TITLE": "Our Ecosystem",
+    "STATUS": {
+      "LIVE": "AI Orchestration Active"
+    },
+    "EXPLORE": "Explore Platform",
     "ADVERTISERS": {
       "TITLE": "Advertisers",
-      "DESC": "Run & optimize ads across multiple platforms effortlessly."
+      "TAG": "Direct Growth",
+      "DESC": "Scale your brand with AI-powered media buying and real-time optimization across all channels."
     },
     "AGENCIES": {
       "TITLE": "Agencies",
-      "DESC": "Manage campaigns at scale with powerful tools and insights."
+      "TAG": "Unified Ops",
+      "DESC": "Streamline complex multi-channel campaigns with automated workflows and white-label reporting."
     },
     "MEDIA_OWNERS": {
       "TITLE": "Media Owners",
-      "DESC": "Monetize your media inventory with premium demand sources."
+      "TAG": "Max Yield",
+      "DESC": "Maximize your inventory value with intelligent demand matching and transparent yield management."
     }
   },
   "SOLUTIONS": {
     "BADGE": "WHY MEDIA ALA CARTE?",
-    "TITLE_PRE": "Our All",
-    "TITLE_HIGHLIGHT": "Solution",
+    "TITLE_PRE": "The Intelligent",
+    "TITLE_HIGHLIGHT": "Hub",
     "TITLE_POST": "for",
-    "TITLE_SUB": "Smarter Media Buying",
+    "TITLE_SUB": "Media Mastery",
+    "CTA": "Join the Network",
+    "CORE": {
+      "TITLE": "Intelligent Orchestration",
+      "DESC": "Our centralized logic engine connects fragmented channels into a unified growth machine, ensuring every impression counts."
+    },
     "CAMPAIGN": {
-      "TITLE": "Campaign Planning",
-      "DESC": "Plan and optimize your ad campaigns with data-driven insights and seamless collaboration for maximum impact."
+      "TITLE": "Precision Planning",
+      "DESC": "Define your objectives and let our AI model the most efficient path to your audience across all media touchpoints."
     },
     "BUYING": {
-      "TITLE": "Media Buying",
-      "DESC": "Effortless direct media deals with AI-powered automation, ensuring cost efficiency and better reach."
+      "TITLE": "Direct Access",
+      "DESC": "Bypass traditional bottlenecks with direct-to-inventory purchasing that maximizes transparency and reduces fees."
     },
     "DISTRIBUTION": {
-      "TITLE": "Ad Distribution",
-      "DESC": "Distribute ads across multiple channels effortlessly, ensuring precise targeting and real-time tracking."
+      "TITLE": "Global Delivery",
+      "DESC": "Scale your message instantly across TV, Digital, Outdoor, and Radio with a single click and unified management."
     },
     "ANALYTICS": {
-      "TITLE": "Performance Analytics",
-      "DESC": "Gain actionable insights with real-time performance tracking to maximize your ROI and refine future strategies."
-    },
-    "CTA": "Get Started"
+      "TITLE": "Real-time Insight",
+      "DESC": "Turn raw data into actionable intelligence with cross-platform attribution and performance dashboards."
+    }
   },
   "COLLABORATION": {
     "BADGE": "FOSTERING COLLABORATION ACROSS MEDIA",

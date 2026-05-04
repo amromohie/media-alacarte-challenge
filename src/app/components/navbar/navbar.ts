@@ -71,15 +71,27 @@ export class NavbarComponent implements AfterViewInit {
 
     // Stagger elements
     if (logo) {
-      tl.from(logo, { opacity: 0, x: -20, duration: 0.5 }, '-=0.4');
+      tl.fromTo(logo, 
+        { opacity: 0, x: -20 }, 
+        { opacity: 1, x: 0, duration: 0.5, clearProps: 'all' }, 
+        '-=0.4'
+      );
     }
 
     if (links?.length) {
-      tl.from(links, { opacity: 0, y: -10, stagger: 0.05, duration: 0.4 }, '-=0.3');
+      tl.fromTo(links, 
+        { opacity: 0, y: -10 }, 
+        { opacity: 1, y: 0, stagger: 0.05, duration: 0.4, clearProps: 'all' }, 
+        '-=0.3'
+      );
     }
 
     if (actions) {
-      tl.from(actions, { opacity: 0, x: 20, duration: 0.5 }, '-=0.4');
+      tl.fromTo(actions, 
+        { opacity: 0, x: 20 }, 
+        { opacity: 1, x: 0, duration: 0.5, clearProps: 'all' }, 
+        '-=0.4'
+      );
     }
   }
 

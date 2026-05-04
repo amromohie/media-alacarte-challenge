@@ -2,33 +2,41 @@
   <nav class="navbar__inner container" aria-label="Main navigation">
     <!-- Logo -->
     <a href="#" class="navbar__logo" aria-label="Media Ala Carte Home" #logoRef>
-      <img src="assets/images/logo.png" alt="Media Ala Carte Logo" class="navbar__logo-image" 
-        loading="eager" width="160" height="40" />
+      <img src="assets/images/logo.png" alt="Media Ala Carte Logo" class="navbar__logo-image" loading="eager"
+        width="160" height="40" />
     </a>
 
     <!-- Desktop Nav Links -->
     <ul class="navbar__links" role="menubar" #linksRef>
-      <li role="none"><a role="menuitem" href="#hero" class="navbar__link" [class.navbar__link--active]="activeLink() === 'platform'" (click)="setActiveLink('platform')">{{ 'NAV.PLATFORM' | translate }}</a></li>
-      <li role="none"><a role="menuitem" href="#services" class="navbar__link" [class.navbar__link--active]="activeLink() === 'features'" (click)="setActiveLink('features')">{{ 'NAV.FEATURES' | translate }}</a></li>
-      <li role="none"><a role="menuitem" href="#solutions" class="navbar__link" [class.navbar__link--active]="activeLink() === 'benefits'" (click)="setActiveLink('benefits')">{{ 'NAV.BENEFITS' | translate }}</a></li>
-      <li role="none"><a role="menuitem" href="#collaboration" class="navbar__link" [class.navbar__link--active]="activeLink() === 'demo'" (click)="setActiveLink('demo')">{{ 'NAV.REQUEST_DEMO' | translate }}</a></li>
-      <li role="none"><a role="menuitem" href="#cta" class="navbar__link" [class.navbar__link--active]="activeLink() === 'contact'" (click)="setActiveLink('contact')">{{ 'NAV.CONTACT' | translate }}</a></li>
-      <li role="none"><a role="menuitem" href="#footer" class="navbar__link" [class.navbar__link--active]="activeLink() === 'about'" (click)="setActiveLink('about')">{{ 'NAV.ABOUT' | translate }}</a></li>
+      <li role="none"><a role="menuitem" href="#hero" class="navbar__link"
+          [class.navbar__link--active]="activeLink() === 'platform'" (click)="setActiveLink('platform')">{{
+          'NAV.PLATFORM' | translate }}</a></li>
+      <li role="none"><a role="menuitem" href="#services" class="navbar__link"
+          [class.navbar__link--active]="activeLink() === 'features'" (click)="setActiveLink('features')">{{
+          'NAV.FEATURES' | translate }}</a></li>
+      <li role="none"><a role="menuitem" href="#solutions" class="navbar__link"
+          [class.navbar__link--active]="activeLink() === 'benefits'" (click)="setActiveLink('benefits')">{{
+          'NAV.BENEFITS' | translate }}</a></li>
+      <li role="none"><a role="menuitem" href="#collaboration" class="navbar__link"
+          [class.navbar__link--active]="activeLink() === 'demo'" (click)="setActiveLink('demo')">{{ 'NAV.REQUEST_DEMO' |
+          translate }}</a></li>
+      <li role="none"><a role="menuitem" href="#cta" class="navbar__link"
+          [class.navbar__link--active]="activeLink() === 'contact'" (click)="setActiveLink('contact')">{{ 'NAV.CONTACT'
+          | translate }}</a></li>
+      <li role="none"><a role="menuitem" href="#footer" class="navbar__link"
+          [class.navbar__link--active]="activeLink() === 'about'" (click)="setActiveLink('about')">{{ 'NAV.ABOUT' |
+          translate }}</a></li>
     </ul>
 
     <!-- Actions -->
     <div class="navbar__actions" #actionsRef>
-      <button class="navbar__lang-btn" (click)="toggleLang()" [attr.aria-label]="currentLang() === 'en' ? 'Switch to Arabic' : 'Switch to English'">
+      <button class="navbar__lang-btn" (click)="toggleLang()"
+        [attr.aria-label]="currentLang() === 'en' ? 'Switch to Arabic' : 'Switch to English'">
         {{ currentLang() === 'en' ? 'AR' : 'EN' }}
       </button>
       <a href="#" class="navbar__login-btn btn-primary btn-sm">{{ 'NAV.LOGIN' | translate }}</a>
-      <button
-        class="navbar__hamburger"
-        (click)="toggleMobileMenu()"
-        [attr.aria-expanded]="mobileMenuOpen()"
-        aria-controls="mobile-menu"
-        aria-label="Toggle navigation menu"
-      >
+      <button class="navbar__hamburger" (click)="toggleMobileMenu()" [attr.aria-expanded]="mobileMenuOpen()"
+        aria-controls="mobile-menu" aria-label="Toggle navigation menu">
         <span class="navbar__hamburger-line" [class.navbar__hamburger-line--open]="mobileMenuOpen()"></span>
         <span class="navbar__hamburger-line" [class.navbar__hamburger-line--open]="mobileMenuOpen()"></span>
         <span class="navbar__hamburger-line" [class.navbar__hamburger-line--open]="mobileMenuOpen()"></span>
@@ -37,15 +45,28 @@
 
     <!-- Mobile Menu -->
     @if (mobileMenuOpen()) {
-      <div class="navbar__mobile" id="mobile-menu" role="menu">
-        <a role="menuitem" href="#hero" class="navbar__mobile-link" [class.navbar__link--active]="activeLink() === 'platform'" (click)="setActiveLink('platform')">{{ 'NAV.PLATFORM' | translate }}</a>
-        <a role="menuitem" href="#services" class="navbar__mobile-link" [class.navbar__link--active]="activeLink() === 'features'" (click)="setActiveLink('features')">{{ 'NAV.FEATURES' | translate }}</a>
-        <a role="menuitem" href="#solutions" class="navbar__mobile-link" [class.navbar__link--active]="activeLink() === 'benefits'" (click)="setActiveLink('benefits')">{{ 'NAV.BENEFITS' | translate }}</a>
-        <a role="menuitem" href="#collaboration" class="navbar__mobile-link" [class.navbar__link--active]="activeLink() === 'demo'" (click)="setActiveLink('demo')">{{ 'NAV.REQUEST_DEMO' | translate }}</a>
-        <a role="menuitem" href="#cta" class="navbar__mobile-link" [class.navbar__link--active]="activeLink() === 'contact'" (click)="setActiveLink('contact')">{{ 'NAV.CONTACT' | translate }}</a>
-        <a role="menuitem" href="#footer" class="navbar__mobile-link" [class.navbar__link--active]="activeLink() === 'about'" (click)="setActiveLink('about')">{{ 'NAV.ABOUT' | translate }}</a>
-        <a href="#" class="navbar__login-btn navbar__login-btn--mobile btn-primary btn-sm">{{ 'NAV.LOGIN' | translate }}</a>
-      </div>
+    <div class="navbar__mobile" id="mobile-menu" role="menu">
+      <a role="menuitem" href="#hero" class="navbar__mobile-link"
+        [class.navbar__link--active]="activeLink() === 'platform'" (click)="setActiveLink('platform')">{{ 'NAV.PLATFORM'
+        | translate }}</a>
+      <a role="menuitem" href="#services" class="navbar__mobile-link"
+        [class.navbar__link--active]="activeLink() === 'features'" (click)="setActiveLink('features')">{{ 'NAV.FEATURES'
+        | translate }}</a>
+      <a role="menuitem" href="#solutions" class="navbar__mobile-link"
+        [class.navbar__link--active]="activeLink() === 'benefits'" (click)="setActiveLink('benefits')">{{ 'NAV.BENEFITS'
+        | translate }}</a>
+      <a role="menuitem" href="#collaboration" class="navbar__mobile-link"
+        [class.navbar__link--active]="activeLink() === 'demo'" (click)="setActiveLink('demo')">{{ 'NAV.REQUEST_DEMO' |
+        translate }}</a>
+      <a role="menuitem" href="#cta" class="navbar__mobile-link"
+        [class.navbar__link--active]="activeLink() === 'contact'" (click)="setActiveLink('contact')">{{ 'NAV.CONTACT' |
+        translate }}</a>
+      <a role="menuitem" href="#footer" class="navbar__mobile-link"
+        [class.navbar__link--active]="activeLink() === 'about'" (click)="setActiveLink('about')">{{ 'NAV.ABOUT' |
+        translate }}</a>
+      <a href="#" class="navbar__login-btn navbar__login-btn--mobile btn-primary btn-sm">{{ 'NAV.LOGIN' | translate
+        }}</a>
+    </div>
     }
   </nav>
 </header>
