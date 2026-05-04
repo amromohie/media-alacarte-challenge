@@ -50,7 +50,7 @@ Follow these instructions to run the project locally.
    Open your browser and navigate to [http://localhost:4200/](http://localhost:4200/).
 
 ## 🛠️ Tech Stack
-- **Framework:** Angular 19
+- **Framework:** Angular 21.1.4
 - **Styling:** SCSS (Vanilla CSS Grid & Flexbox)
 - **Animation:** GSAP (Core + ScrollTrigger)
 - **i18n:** ngx-translate
